@@ -65,31 +65,8 @@ class {
     return "[#{levelString}] #{classPrefix}#{labelPrefix}- "
   }
 
-  [TargetRuntime browser]
   logMessage(String message, String level, Bool newLine = true) {
-    if (newLine) {
-      external js {
-        console[#{level.chars.data}](#{message.chars.data});
-      }
-    } else {
-      external js {
-        console[#{level.chars.data}](#{message.chars.data});
-      }
-    }
-  }
-
-  [TargetRuntime not browser]
-  logMessage(String message, String level, Bool: newLine = true) {
-    if (newLine) {
-      external js {
-        console[#{level.chars.data}](#{message.chars.data});
-      }
-    } else {
-      external js {
-        var stdLevel = #{level.chars.data} === 'warn' || #{level.chars.data} === 'error' ? 'stderr' : 'stdout';
-        process[stdLevel].write(#{message.chars.data});
-      }
-    }
+    throw new Exception("Not implemented")
   }
 
   public trace(Object value, Bool: newLine = true) {

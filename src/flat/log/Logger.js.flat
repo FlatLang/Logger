@@ -1,0 +1,31 @@
+package "flat/log"
+
+class {
+  [TargetRuntime browser]
+  logMessage(String message, String level, Bool newLine = true) {
+    if (newLine) {
+      external js {
+        console[#{level.chars.data}](#{message.chars.data});
+      }
+    } else {
+      external js {
+        console[#{level.chars.data}](#{message.chars.data});
+      }
+    }
+  }
+
+  [TargetRuntime not browser]
+  logMessage(String message, String level, Bool: newLine = true) {
+    if (newLine) {
+      external js {
+        console[#{level.chars.data}](#{message.chars.data});
+      }
+    } else {
+      external js {
+        var levelChars = #{level.chars.data};
+        var stdLevel = levelChars === 'warn' || levelChars === 'error' ? 'stderr' : 'stdout';
+        process[stdLevel].write(#{message.chars.data});
+      }
+    }
+  }
+}
