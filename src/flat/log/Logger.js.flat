@@ -2,7 +2,7 @@ package "flat/log"
 
 class {
   [TargetRuntime browser]
-  logMessage(String message, String level, Bool newLine = true) {
+  logMessage(String message, String level, Bool: newLine = true) {
     if (newLine) {
       external js {
         console[#{level.chars.data}](#{message.chars.data});
