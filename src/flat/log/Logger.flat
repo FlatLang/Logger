@@ -1,11 +1,12 @@
 package "flat/log"
 
 class {
-  let static Int TRACE = 4
-  let static Int DEBUG = 3
-  let static Int INFO = 2
-  let static Int WARN = 1
-  let static Int ERROR = 0
+  let static Int TRACE = 5
+  let static Int DEBUG = 4
+  let static Int INFO = 3
+  let static Int WARN = 2
+  let static Int ERROR = 1
+  let static Int OFF = 0
 
   var static Int DEFAULT_LOGGING_LEVEL = INFO
   var static Bool DEFAULT_SHOW_PREFIX = false
