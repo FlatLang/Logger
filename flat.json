@@ -1,0 +1,19 @@
+{
+  "name": "Logger",
+  "version": "0.1.0",
+  "description": "Flat Logging Library",
+  "author": "Braden Steffaniak",
+  "license": "ISC",
+  "scripts": {},
+  "main": {
+    "source": "src",
+    "dependencies": {}
+  },
+  "test": {
+    "mainClass": "flat/log/Logger_TestSuite",
+    "source": "src",
+    "dependencies": {
+      "github:FlatLang/Nest": "master"
+    }
+  }
+}

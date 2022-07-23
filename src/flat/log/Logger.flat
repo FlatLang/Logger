@@ -1,0 +1,123 @@
+package "flat/log"
+
+class {
+  let static Int TRACE = 4
+  let static Int DEBUG = 3
+  let static Int INFO = 2
+  let static Int WARN = 1
+  let static Int ERROR = 0
+
+  var static Int DEFAULT_LOGGING_LEVEL = INFO
+  var static Bool DEFAULT_SHOW_PREFIX = false
+
+  let static Logger DEFAULT = new Logger()
+
+  let Int _loggingLevel = null
+  let Int loggingLevel {
+    get {
+      if (_loggingLevel) {
+        return _loggingLevel
+      } else {
+        return DEFAULT_LOGGING_LEVEL
+      }
+    }
+  }
+
+  let Bool _showPrefix = null
+  let Bool showPrefix {
+    get {
+      if (_showPrefix) {
+        return _showPrefix
+      } else {
+        return DEFAULT_SHOW_PREFIX
+      }
+    }
+  }
+
+  public construct(
+    private Class loggerClass = null,
+    private String: label = null,
+    Int: loggingLevel = null,
+    Bool: showPrefix = null
+  ) {
+    _loggingLevel = loggingLevel
+  }
+
+  getPrefix(Int level) -> String {
+    if (!showPrefix) {
+      return ""
+    }
+
+    var levelString
+
+    match (level) {
+      TRACE => levelString = "TRACE"
+      DEBUG => levelString = "DEBUG"
+      INFO => levelString = "INFO"
+      WARN => levelString = "WARN"
+      ERROR => levelString = "ERROR"
+    }
+
+    let classPrefix = loggerClass ? loggerClass.location + " " : ""
+    let labelPrefix = label ? label + " " : ""
+
+    return "[#{levelString}] #{classPrefix}#{labelPrefix}- "
+  }
+
+  [TargetRuntime browser]
+  logMessage(String message, String level, Bool newLine = true) {
+    if (newLine) {
+      external js {
+        console[#{level.chars.data}](#{message.chars.data});
+      }
+    } else {
+      external js {
+        console[#{level.chars.data}](#{message.chars.data});
+      }
+    }
+  }
+
+  [TargetRuntime not browser]
+  logMessage(String message, String level, Bool: newLine = true) {
+    if (newLine) {
+      external js {
+        console[#{level.chars.data}](#{message.chars.data});
+      }
+    } else {
+      external js {
+        var stdLevel = #{level.chars.data} === 'warn' || #{level.chars.data} === 'error' ? 'stderr' : 'stdout';
+        process[stdLevel].write(#{message.chars.data});
+      }
+    }
+  }
+
+  public trace(Object value, Bool: newLine = true) {
+    if (loggingLevel >= TRACE) {
+      logMessage(getPrefix(TRACE) + value.toString(), "log", newLine)
+    }
+  }
+
+  public debug(Object value, Bool: newLine = true) {
+    if (loggingLevel >= DEBUG) {
+      logMessage(getPrefix(DEBUG) + value.toString(), "log", newLine)
+    }
+  }
+
+  public info(Object value, Bool: newLine = true) {
+    if (loggingLevel >= INFO) {
+      logMessage(getPrefix(INFO) + value.toString(), "log", newLine)
+    }
+  }
+
+  public warn(Object value, Bool: newLine = true) {
+    if (loggingLevel >= WARN) {
+      logMessage(getPrefix(WARN) + value.toString(), "warn", newLine)
+    }
+  }
+
+  public error(Object value, Bool: newLine = true) {
+    if (loggingLevel >= ERROR) {
+      logMessage(getPrefix(ERROR) + value.toString(), "error", newLine)
+    }
+  }
+}
