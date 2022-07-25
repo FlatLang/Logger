@@ -49,14 +49,12 @@ class {
       return ""
     }
 
-    var levelString
-
-    match (level) {
-      TRACE => levelString = "TRACE"
-      DEBUG => levelString = "DEBUG"
-      INFO => levelString = "INFO"
-      WARN => levelString = "WARN"
-      ERROR => levelString = "ERROR"
+    let levelString = match (level) {
+      TRACE => "TRACE"
+      DEBUG => "DEBUG"
+      INFO => "INFO"
+      WARN => "WARN"
+      ERROR => "ERROR"
     }
 
     let classPrefix = loggerClass ? loggerClass.location + " " : ""
