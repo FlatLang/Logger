@@ -11,7 +11,7 @@ class {
   var static Int DEFAULT_LOGGING_LEVEL = INFO
   var static Bool DEFAULT_SHOW_PREFIX = false
 
-  let static Logger DEFAULT = new Logger()
+  let static Logger DEFAULT = Logger()
 
   let Int _loggingLevel = null
   let Int loggingLevel {
@@ -64,7 +64,7 @@ class {
   }
 
   logMessage(String message, String level, Bool newLine = true) {
-    throw new Exception("Not implemented")
+    throw Exception("Not implemented")
   }
 
   public trace(Object value, Bool: newLine = true) {
