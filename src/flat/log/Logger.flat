@@ -1,4 +1,4 @@
-package "flat/log"
+package flat/log
 
 class {
   let static Int TRACE = 5
