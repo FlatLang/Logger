@@ -11,6 +11,23 @@ class {
   var static Int DEFAULT_LOGGING_LEVEL = INFO
   var static Bool DEFAULT_SHOW_PREFIX = false
 
+  static {
+    if (let level = System.getEnv("DEFAULT_LOGGING_LEVEL")) {
+      let levelValue = match (level) {
+        "TRACE" => TRACE
+        "DEBUG" => DEBUG
+        "INFO" => INFO
+        "WARN" => WARN
+        "ERROR" => ERROR
+      }
+
+      DEFAULT_LOGGING_LEVEL = levelValue
+    }
+    if (let showPrefix = System.getEnv("DEFAULT_SHOW_PREFIX")) {
+      DEFAULT_SHOW_PREFIX = Bool.fromString(showPrefix)
+    }
+  }
+
   let static Logger DEFAULT = Logger()
 
   let Int _loggingLevel = null
