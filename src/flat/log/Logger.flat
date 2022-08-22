@@ -16,10 +16,10 @@ class {
   let Int _loggingLevel = null
   let Int loggingLevel {
     get {
-      if (_loggingLevel) {
-        return _loggingLevel
+      return if (_loggingLevel != null) {
+        _loggingLevel
       } else {
-        return DEFAULT_LOGGING_LEVEL
+        DEFAULT_LOGGING_LEVEL
       }
     }
   }
@@ -27,10 +27,10 @@ class {
   let Bool _showPrefix = null
   let Bool showPrefix {
     get {
-      if (_showPrefix) {
-        return _showPrefix
+      return if (_showPrefix != null) {
+        _showPrefix
       } else {
-        return DEFAULT_SHOW_PREFIX
+        DEFAULT_SHOW_PREFIX
       }
     }
   }
