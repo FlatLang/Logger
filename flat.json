@@ -7,7 +7,9 @@
   "scripts": {},
   "main": {
     "source": "src",
-    "dependencies": {}
+    "dependencies": {
+      "github:FlatLang/CoLorIzer": "master"
+    }
   },
   "test": {
     "mainClass": "flat/log/Logger_TestSuite",

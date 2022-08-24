@@ -1,5 +1,7 @@
 package flat/log
 
+import static flat/colorizer/Colorizer
+
 class {
   let static Int TRACE = 5
   let static Int DEBUG = 4
@@ -10,6 +12,7 @@ class {
 
   var static Int DEFAULT_LOGGING_LEVEL = INFO
   var static Bool DEFAULT_SHOW_PREFIX = false
+  var static Bool DEFAULT_SHOW_FORMATTING = false
 
   static {
     if (let level = System.getEnv("DEFAULT_LOGGING_LEVEL")) {
@@ -25,6 +28,9 @@ class {
     }
     if (let showPrefix = System.getEnv("DEFAULT_SHOW_PREFIX")) {
       DEFAULT_SHOW_PREFIX = Bool.fromString(showPrefix)
+    }
+    if (let showFormatting = System.getEnv("LOGGING_DEFAULT_SHOW_FORMATTING")) {
+      DEFAULT_SHOW_FORMATTING = Bool.fromString(showFormatting)
     }
   }
 
@@ -52,6 +58,17 @@ class {
     }
   }
 
+  let Bool _showFormatting = null
+  let Bool showFormatting {
+    get {
+      return if (_showFormatting != null) {
+        _showFormatting
+      } else {
+        DEFAULT_SHOW_FORMATTING
+      }
+    }
+  }
+
   public construct(
     private Class loggerClass = null,
     private String: label = null,
@@ -74,43 +91,88 @@ class {
       ERROR => "ERROR"
     }
 
-    let classPrefix = loggerClass ? loggerClass.location + " " : ""
-    let labelPrefix = label ? label + " " : ""
+    let classPrefix = if (showFormatting) {
+      loggerClass ? underscore(loggerClass.location) + " " : ""
+    } else {
+      loggerClass ? loggerClass.location + " " : ""
+    }
 
-    return "[#{levelString}] #{classPrefix}#{labelPrefix}- "
+    let labelPrefix = if (showFormatting) {
+      label ? underscore(label) + " " : ""
+    } else {
+      label ? label + " " : ""
+    }
+
+    return if (showFormatting) {
+      let suffix = " #{classPrefix}#{labelPrefix}".trimEnd()
+      let content = underscore("[#{levelString}]") + suffix
+
+      let colored = match (level) {
+        TRACE => cyanBackground(content)
+        DEBUG => greenBackground(content)
+        INFO => content
+        WARN => yellowBackground(content)
+        ERROR => redBackground(content)
+      }
+
+      colored + " - "
+    } else {
+      "[#{levelString}] #{classPrefix}#{labelPrefix}- "
+    }
   }
 
   logMessage(String message, String level, Bool newLine = true) {
     throw Exception("Not implemented")
   }
 
+  formatContent(String content, Int level) -> String {
+    if (!showFormatting) {
+      return content
+    }
+
+    let formatted = match (level) {
+      TRACE => cyan(content)
+      DEBUG => green(content)
+      INFO => content
+      WARN => yellow(content)
+      ERROR => red(content)
+    }
+
+    return formatted
+  }
+
   public trace(Object value, Bool: newLine = true) {
     if (loggingLevel >= TRACE) {
-      logMessage(getPrefix(TRACE) + value.toString(), "log", newLine)
+      let content = formatContent(value.toString(), TRACE)
+      logMessage(getPrefix(TRACE) + content, "log", newLine)
     }
   }
 
   public debug(Object value, Bool: newLine = true) {
     if (loggingLevel >= DEBUG) {
-      logMessage(getPrefix(DEBUG) + value.toString(), "log", newLine)
+      let content = formatContent(value.toString(), DEBUG)
+      logMessage(getPrefix(DEBUG) + content, "log", newLine)
     }
   }
 
   public info(Object value, Bool: newLine = true) {
     if (loggingLevel >= INFO) {
-      logMessage(getPrefix(INFO) + value.toString(), "log", newLine)
+      let content = formatContent(value.toString(), INFO)
+      logMessage(getPrefix(INFO) + content, "log", newLine)
     }
   }
 
   public warn(Object value, Bool: newLine = true) {
     if (loggingLevel >= WARN) {
-      logMessage(getPrefix(WARN) + value.toString(), "warn", newLine)
+      let content = formatContent(value.toString(), WARN)
+      logMessage(getPrefix(WARN) + content, "warn", newLine)
     }
   }
 
   public error(Object value, Bool: newLine = true) {
     if (loggingLevel >= ERROR) {
-      logMessage(getPrefix(ERROR) + value.toString(), "error", newLine)
+      let content = formatContent(value.toString(), ERROR)
+      logMessage(getPrefix(ERROR) + content, "error", newLine)
     }
   }
 }
