@@ -94,10 +94,10 @@ class {
     let classPrefix = loggerClass ? loggerClass.location + " " : ""
     let labelPrefix = label ? label + " " : ""
 
-    return if (showFormatting) {
-      let suffix = " #{classPrefix}#{labelPrefix}".trimEnd()
-      let content = "[#{levelString}]" + suffix
+    let suffix = " #{classPrefix}#{labelPrefix}".trimEnd()
+    let content = "[#{levelString}]" + suffix
 
+    return if (showFormatting) {
       let colored = match (level) {
         TRACE => cyanBackground(content)
         DEBUG => greenBackground(content)
@@ -108,7 +108,7 @@ class {
 
       colored + " - "
     } else {
-      "[#{levelString}] #{classPrefix}#{labelPrefix}- "
+      content + " - "
     }
   }
 
