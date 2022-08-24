@@ -15,7 +15,7 @@ class {
   var static Bool DEFAULT_SHOW_FORMATTING = false
 
   static {
-    if (let level = System.getEnv("DEFAULT_LOGGING_LEVEL")) {
+    if (let level = System.getEnv("LOGGING_DEFAULT_LOGGING_LEVEL")) {
       let levelValue = match (level) {
         "TRACE" => TRACE
         "DEBUG" => DEBUG
@@ -26,7 +26,7 @@ class {
 
       DEFAULT_LOGGING_LEVEL = levelValue
     }
-    if (let showPrefix = System.getEnv("DEFAULT_SHOW_PREFIX")) {
+    if (let showPrefix = System.getEnv("LOGGING_DEFAULT_SHOW_PREFIX")) {
       DEFAULT_SHOW_PREFIX = Bool.fromString(showPrefix)
     }
     if (let showFormatting = System.getEnv("LOGGING_DEFAULT_SHOW_FORMATTING")) {
