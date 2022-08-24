@@ -91,21 +91,12 @@ class {
       ERROR => "ERROR"
     }
 
-    let classPrefix = if (showFormatting) {
-      loggerClass ? underscore(loggerClass.location) + " " : ""
-    } else {
-      loggerClass ? loggerClass.location + " " : ""
-    }
-
-    let labelPrefix = if (showFormatting) {
-      label ? underscore(label) + " " : ""
-    } else {
-      label ? label + " " : ""
-    }
+    let classPrefix = loggerClass ? loggerClass.location + " " : ""
+    let labelPrefix = label ? label + " " : ""
 
     return if (showFormatting) {
       let suffix = " #{classPrefix}#{labelPrefix}".trimEnd()
-      let content = underscore("[#{levelString}]") + suffix
+      let content = "[#{levelString}]" + suffix
 
       let colored = match (level) {
         TRACE => cyanBackground(content)
