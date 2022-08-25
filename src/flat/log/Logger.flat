@@ -3,11 +3,12 @@ package flat/log
 import static flat/colorizer/Colorizer
 
 class {
-  let static Int TRACE = 5
-  let static Int DEBUG = 4
-  let static Int INFO = 3
-  let static Int WARN = 2
-  let static Int ERROR = 1
+  let static Int TRACE = 6
+  let static Int DEBUG = 5
+  let static Int INFO = 4
+  let static Int WARN = 3
+  let static Int ERROR = 2
+  let static Int FATAL = 1
   let static Int OFF = 0
 
   var static Int DEFAULT_LOGGING_LEVEL = INFO
@@ -22,6 +23,7 @@ class {
         "INFO" => INFO
         "WARN" => WARN
         "ERROR" => ERROR
+        "FATAL" => FATAL
       }
 
       DEFAULT_LOGGING_LEVEL = levelValue
@@ -89,6 +91,7 @@ class {
       INFO => "INFO"
       WARN => "WARN"
       ERROR => "ERROR"
+      FATAL => "FATAL"
     }
 
     let classPrefix = loggerClass ? loggerClass.location + " " : ""
@@ -104,6 +107,7 @@ class {
         INFO => content
         WARN => yellowBackground(content)
         ERROR => redBackground(content)
+        FATAL => redBackground(content)
       }
 
       colored + " - "
@@ -127,6 +131,7 @@ class {
       INFO => content
       WARN => yellow(content)
       ERROR => red(content)
+      FATAL => red(content)
     }
 
     return formatted
@@ -164,6 +169,13 @@ class {
     if (loggingLevel >= ERROR) {
       let content = formatContent(value.toString(), ERROR)
       logMessage(getPrefix(ERROR) + content, "error", newLine)
+    }
+  }
+
+  public fatal(Object value, Bool: newLine = true) {
+    if (loggingLevel >= FATAL) {
+      let content = formatContent(value.toString(), FATAL)
+      logMessage(getPrefix(FATAL) + content, "error", newLine)
     }
   }
 }
