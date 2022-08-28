@@ -1,0 +1,11 @@
+package flat/log
+
+import flat/log/Logger
+
+testable class {
+  test `can create`() {
+    let value = Logger()
+
+    expect(value).toNotBe(null)
+  }
+}
