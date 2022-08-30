@@ -104,7 +104,7 @@ class {
       let colored = match (level) {
         TRACE => cyanBackground(content)
         DEBUG => greenBackground(content)
-        INFO => content
+        INFO => grayBackground(content)
         WARN => yellowBackground(content)
         ERROR => redBackground(content)
         FATAL => redBackground(content)
