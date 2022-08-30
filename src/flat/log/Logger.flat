@@ -1,5 +1,7 @@
 package flat/log
 
+import flatlang/time/DateTime
+
 import static flat/colorizer/Colorizer
 
 class {
@@ -122,11 +124,12 @@ class {
       FATAL => "FATAL"
     }
 
+    let timestamp = DateTime.now().toIsoString()
     let classPrefix = loggerClass ? loggerClass.location + " " : ""
     let labelPrefix = label ? label + " " : ""
 
     let suffix = " #{classPrefix}#{labelPrefix}".trimEnd()
-    let content = "[#{levelString}]" + suffix
+    let content = "[#{timestamp}] [#{levelString}]" + suffix
 
     return if (showFormatting) {
       let colored = match (level) {
