@@ -2,6 +2,9 @@ package flat/log
 
 import flatlang/time/DateTime
 
+import flatlang/regex/Pattern
+import flatlang/regex/RegexStringExtensions
+
 import static flat/colorizer/Colorizer
 
 class {
@@ -16,10 +19,14 @@ class {
   var static Int DEFAULT_LOGGING_LEVEL = INFO
   var static Bool DEFAULT_SHOW_PREFIX = false
   var static Bool DEFAULT_SHOW_FORMATTING = false
+  var static Int DEFAULT_LINE_LENGTH = null
+  var static Bool DEFAULT_SPLIT_ON_WORD = true
 
   var static Int FORCE_LOGGING_LEVEL = null
   var static Bool FORCE_SHOW_PREFIX = null
   var static Bool FORCE_SHOW_FORMATTING = null
+  var static Int FORCE_LINE_LENGTH = null
+  var static Bool FORCE_SPLIT_ON_WORD = null
 
   static {
     if (let level = System.getEnv("LOGGING_DEFAULT_LOGGING_LEVEL")) {
@@ -101,16 +108,46 @@ class {
     }
   }
 
+  let Int _lineLength = null
+  let Int lineLength {
+    get {
+      return if (FORCE_LINE_LENGTH != null) {
+        FORCE_LINE_LENGTH
+      } else if (_lineLength != null) {
+        _lineLength
+      } else {
+        DEFAULT_LINE_LENGTH
+      }
+    }
+  }
+
+  let Bool _splitOnWord = null
+  let Bool splitOnWord {
+    get {
+      return if (FORCE_SPLIT_ON_WORD != null) {
+        FORCE_SPLIT_ON_WORD
+      } else if (_splitOnWord != null) {
+        _splitOnWord
+      } else {
+        DEFAULT_SPLIT_ON_WORD
+      }
+    }
+  }
+
   public construct(
     private Class loggerClass = null,
     private String: label = null,
     Int: loggingLevel = null,
     Bool: showPrefix = null,
-    Bool: showFormatting = null
+    Bool: showFormatting = null,
+    Int: lineLength = null,
+    Bool: splitOnWord = null
   ) {
     _loggingLevel = loggingLevel
     _showPrefix = showPrefix
     _showFormatting = showFormatting
+    _lineLength = lineLength
+    _splitOnWord = splitOnWord
   }
 
   getPrefix(Int level) -> String {
@@ -154,7 +191,38 @@ class {
     throw Exception("Not implemented")
   }
 
-  formatContent(String content, Int level) -> String {
+  formatContent(var String content, Int level) -> String {
+    if (_lineLength != null) {
+      content = content
+        .split(/\n/)
+        .map((line) => {
+          let trimmedLines = Array<String>()
+
+          var i = 0
+
+          while (i < line.count) {
+            if (i + lineLength >= line.count) {
+              trimmedLines.add(line.substring(i).trimEnd())
+              break
+            }
+
+            let splitIndex = splitOnWord ?
+              line.lastIndexOf(String.WHITESPACE, start: i + lineLength) + 1 :
+              i + lineLength
+
+            let trimmedLine = line.substring(i, splitIndex).trimEnd()
+
+            trimmedLines.add(trimmedLine)
+
+            i = splitIndex
+          }
+
+          return trimmedLines
+        })
+        .map({ "#{_.join("\n")}" })
+        .join("\n")
+    }
+
     if (!showFormatting) {
       return content
     }
