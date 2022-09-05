@@ -105,9 +105,12 @@ class {
     private Class loggerClass = null,
     private String: label = null,
     Int: loggingLevel = null,
-    Bool: showPrefix = null
+    Bool: showPrefix = null,
+    Bool: showFormatting = null
   ) {
     _loggingLevel = loggingLevel
+    _showPrefix = showPrefix
+    _showFormatting = showFormatting
   }
 
   getPrefix(Int level) -> String {
