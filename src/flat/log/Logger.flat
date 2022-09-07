@@ -8,25 +8,25 @@ import flatlang/regex/RegexStringExtensions
 import static flat/colorizer/Colorizer
 
 class {
-  let static Int TRACE = 6
-  let static Int DEBUG = 5
-  let static Int INFO = 4
-  let static Int WARN = 3
-  let static Int ERROR = 2
-  let static Int FATAL = 1
-  let static Int OFF = 0
+  visible let static Int TRACE = 6
+  visible let static Int DEBUG = 5
+  visible let static Int INFO = 4
+  visible let static Int WARN = 3
+  visible let static Int ERROR = 2
+  visible let static Int FATAL = 1
+  visible let static Int OFF = 0
 
-  var static Int DEFAULT_LOGGING_LEVEL = INFO
-  var static Bool DEFAULT_SHOW_PREFIX = false
-  var static Bool DEFAULT_SHOW_FORMATTING = false
-  var static Int DEFAULT_LINE_LENGTH = null
-  var static Bool DEFAULT_SPLIT_ON_WORD = true
+  public var static Int DEFAULT_LOGGING_LEVEL = INFO
+  public var static Bool DEFAULT_SHOW_PREFIX = false
+  public var static Bool DEFAULT_SHOW_FORMATTING = false
+  public var static Int DEFAULT_LINE_LENGTH = null
+  public var static Bool DEFAULT_SPLIT_ON_WORD = true
 
-  var static Int FORCE_LOGGING_LEVEL = null
-  var static Bool FORCE_SHOW_PREFIX = null
-  var static Bool FORCE_SHOW_FORMATTING = null
-  var static Int FORCE_LINE_LENGTH = null
-  var static Bool FORCE_SPLIT_ON_WORD = null
+  public var static Int FORCE_LOGGING_LEVEL = null
+  public var static Bool FORCE_SHOW_PREFIX = null
+  public var static Bool FORCE_SHOW_FORMATTING = null
+  public var static Int FORCE_LINE_LENGTH = null
+  public var static Bool FORCE_SPLIT_ON_WORD = null
 
   static {
     if (let level = System.getEnv("LOGGING_DEFAULT_LOGGING_LEVEL")) {
@@ -70,7 +70,7 @@ class {
   let static Logger DEFAULT = Logger()
 
   let Int _loggingLevel = null
-  let Int loggingLevel {
+  visible let Int loggingLevel {
     get {
       return if (FORCE_LOGGING_LEVEL != null) {
         FORCE_LOGGING_LEVEL
@@ -83,7 +83,7 @@ class {
   }
 
   let Bool _showPrefix = null
-  let Bool showPrefix {
+  visible let Bool showPrefix {
     get {
       return if (FORCE_SHOW_PREFIX != null) {
         FORCE_SHOW_PREFIX
@@ -96,7 +96,7 @@ class {
   }
 
   let Bool _showFormatting = null
-  let Bool showFormatting {
+  visible let Bool showFormatting {
     get {
       return if (FORCE_SHOW_FORMATTING != null) {
         FORCE_SHOW_FORMATTING
@@ -109,7 +109,7 @@ class {
   }
 
   let Int _lineLength = null
-  let Int lineLength {
+  visible let Int lineLength {
     get {
       return if (FORCE_LINE_LENGTH != null) {
         FORCE_LINE_LENGTH
@@ -122,7 +122,7 @@ class {
   }
 
   let Bool _splitOnWord = null
-  let Bool splitOnWord {
+  visible let Bool splitOnWord {
     get {
       return if (FORCE_SPLIT_ON_WORD != null) {
         FORCE_SPLIT_ON_WORD
