@@ -134,6 +134,8 @@ class {
     }
   }
 
+  Array<filter(String) -> String> filters = Array()
+
   public construct(
     private Class loggerClass = null,
     private String: label = null,
@@ -187,11 +189,17 @@ class {
     }
   }
 
+  public addFilter(filter(String) -> String) {
+    filters.add(filter)
+  }
+
   logMessage(String message, String level, Bool newLine = true) {
     throw Exception("Not implemented")
   }
 
   formatContent(var String content, Int level) -> String {
+    filters.forEach({ content = (String)_(content) })
+
     if (_lineLength != null) {
       content = content
         .split(/\n/)
