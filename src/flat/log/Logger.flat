@@ -247,42 +247,42 @@ class {
     return formatted
   }
 
-  public trace(Object value, Bool: newLine = true) {
+  public trace(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= TRACE) {
       let content = formatContent(value.toString(), TRACE)
       logMessage(getPrefix(TRACE) + content, "log", newLine)
     }
   }
 
-  public debug(Object value, Bool: newLine = true) {
+  public debug(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= DEBUG) {
       let content = formatContent(value.toString(), DEBUG)
       logMessage(getPrefix(DEBUG) + content, "log", newLine)
     }
   }
 
-  public info(Object value, Bool: newLine = true) {
+  public info(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= INFO) {
       let content = formatContent(value.toString(), INFO)
       logMessage(getPrefix(INFO) + content, "log", newLine)
     }
   }
 
-  public warn(Object value, Bool: newLine = true) {
+  public warn(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= WARN) {
       let content = formatContent(value.toString(), WARN)
       logMessage(getPrefix(WARN) + content, "warn", newLine)
     }
   }
 
-  public error(Object value, Bool: newLine = true) {
+  public error(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= ERROR) {
       let content = formatContent(value.toString(), ERROR)
       logMessage(getPrefix(ERROR) + content, "error", newLine)
     }
   }
 
-  public fatal(Object value, Bool: newLine = true) {
+  public fatal(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= FATAL) {
       let content = formatContent(value.toString(), FATAL)
       logMessage(getPrefix(FATAL) + content, "error", newLine)
