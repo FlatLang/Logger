@@ -1,9 +1,9 @@
 package flat/log
 
-import flatlang/time/DateTime
+import flat/time/DateTime
 
-import flatlang/regex/Pattern
-import flatlang/regex/RegexStringExtensions
+import flat/regex/Pattern
+import flat/regex/RegexStringExtensions
 
 import static flat/colorizer/Colorizer
 
