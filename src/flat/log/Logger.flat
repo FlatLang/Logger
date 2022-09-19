@@ -1,8 +1,8 @@
 package flat/log
 
 import flat/time/DateTime
-
 import flat/regex/Pattern
+
 import flat/regex/RegexStringExtensions
 
 import static flat/colorizer/Colorizer
