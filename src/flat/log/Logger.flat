@@ -254,9 +254,23 @@ class {
     }
   }
 
+  public traceFunc(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= TRACE) {
+      let content = formatContent(value().toString(), TRACE)
+      logMessage(getPrefix(TRACE) + content, "log", newLine)
+    }
+  }
+
   public debug(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= DEBUG) {
       let content = formatContent(value.toString(), DEBUG)
+      logMessage(getPrefix(DEBUG) + content, "log", newLine)
+    }
+  }
+
+  public debugFunc(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= DEBUG) {
+      let content = formatContent(value().toString(), DEBUG)
       logMessage(getPrefix(DEBUG) + content, "log", newLine)
     }
   }
@@ -268,9 +282,23 @@ class {
     }
   }
 
+  public infoFunc(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= INFO) {
+      let content = formatContent(value().toString(), INFO)
+      logMessage(getPrefix(INFO) + content, "log", newLine)
+    }
+  }
+
   public warn(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= WARN) {
       let content = formatContent(value.toString(), WARN)
+      logMessage(getPrefix(WARN) + content, "warn", newLine)
+    }
+  }
+
+  public warnFunc(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= WARN) {
+      let content = formatContent(value().toString(), WARN)
       logMessage(getPrefix(WARN) + content, "warn", newLine)
     }
   }
@@ -282,9 +310,23 @@ class {
     }
   }
 
+  public errorFunc(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= ERROR) {
+      let content = formatContent(value().toString(), ERROR)
+      logMessage(getPrefix(ERROR) + content, "error", newLine)
+    }
+  }
+
   public fatal(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= FATAL) {
       let content = formatContent(value.toString(), FATAL)
+      logMessage(getPrefix(FATAL) + content, "error", newLine)
+    }
+  }
+
+  public fatalFunc(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= FATAL) {
+      let content = formatContent(value().toString(), FATAL)
       logMessage(getPrefix(FATAL) + content, "error", newLine)
     }
   }
