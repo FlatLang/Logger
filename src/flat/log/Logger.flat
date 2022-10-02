@@ -28,6 +28,7 @@ class {
   public var static Int FORCE_LINE_LENGTH = null
   public var static Bool FORCE_SPLIT_ON_WORD = null
 
+  [TargetRuntime not browser]
   static {
     if (let level = System.getEnv("LOGGING_DEFAULT_LOGGING_LEVEL")) {
       let levelValue = match (level) {
