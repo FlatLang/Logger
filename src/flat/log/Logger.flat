@@ -8,13 +8,13 @@ import flat/regex/RegexStringExtensions
 import static flat/colorizer/Colorizer
 
 class {
-  visible let static Int TRACE = 6
-  visible let static Int DEBUG = 5
-  visible let static Int INFO = 4
-  visible let static Int WARN = 3
-  visible let static Int ERROR = 2
-  visible let static Int FATAL = 1
-  visible let static Int OFF = 0
+  visible static Int TRACE = 6
+  visible static Int DEBUG = 5
+  visible static Int INFO = 4
+  visible static Int WARN = 3
+  visible static Int ERROR = 2
+  visible static Int FATAL = 1
+  visible static Int OFF = 0
 
   public var static Int DEFAULT_LOGGING_LEVEL = INFO
   public var static Bool DEFAULT_SHOW_PREFIX = false
@@ -68,7 +68,7 @@ class {
     }
   }
 
-  let static Logger DEFAULT = Logger()
+  static Logger DEFAULT = Logger()
 
   let Int _loggingLevel = null
   visible let Int loggingLevel {
