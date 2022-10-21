@@ -18,7 +18,7 @@ class {
 
   public var static Int DEFAULT_LOGGING_LEVEL = INFO
   public var static Bool DEFAULT_SHOW_PREFIX = false
-  public var static Bool DEFAULT_SHOW_FORMATTING = false
+  public var static Bool DEFAULT_SHOW_FORMATTING = true
   public var static Int DEFAULT_LINE_LENGTH = null
   public var static Bool DEFAULT_SPLIT_ON_WORD = true
 
