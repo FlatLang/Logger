@@ -21,12 +21,20 @@ class {
   public var static Bool DEFAULT_SHOW_FORMATTING = true
   public var static Int DEFAULT_LINE_LENGTH = null
   public var static Bool DEFAULT_SPLIT_ON_WORD = true
+  public var static String DEFAULT_LINE_PREFIX = null
+  public var static String DEFAULT_LINE_SUFFIX = null
+  public var static String DEFAULT_PREFIX = null
+  public var static String DEFAULT_SUFFIX = null
 
   public var static Int FORCE_LOGGING_LEVEL = null
   public var static Bool FORCE_SHOW_PREFIX = null
   public var static Bool FORCE_SHOW_FORMATTING = null
   public var static Int FORCE_LINE_LENGTH = null
   public var static Bool FORCE_SPLIT_ON_WORD = null
+  public var static String FORCE_LINE_PREFIX = null
+  public var static String FORCE_LINE_SUFFIX = null
+  public var static String FORCE_PREFIX = null
+  public var static String FORCE_SUFFIX = null
 
   [TargetRuntime not browser]
   static {
@@ -48,6 +56,18 @@ class {
     if (let showFormatting = System.getEnv("LOGGING_DEFAULT_SHOW_FORMATTING")) {
       DEFAULT_SHOW_FORMATTING = Bool.fromString(showFormatting)
     }
+    if (let linePrefix = System.getEnv("LOGGING_DEFAULT_LINE_PREFIX")) {
+      DEFAULT_LINE_PREFIX = linePrefix
+    }
+    if (let lineSuffix = System.getEnv("LOGGING_DEFAULT_LINE_SUFFIX")) {
+      DEFAULT_LINE_SUFFIX = lineSuffix
+    }
+    if (let prefix = System.getEnv("LOGGING_DEFAULT_PREFIX")) {
+      DEFAULT_PREFIX = prefix
+    }
+    if (let suffix = System.getEnv("LOGGING_DEFAULT_SUFFIX")) {
+      DEFAULT_SUFFIX = suffix
+    }
     if (let forceLevel = System.getEnv("LOGGING_FORCE_LOGGING_LEVEL")) {
       let levelValue = match (forceLevel) {
         "TRACE" => TRACE
@@ -65,6 +85,18 @@ class {
     }
     if (let forceShowFormatting = System.getEnv("LOGGING_FORCE_SHOW_FORMATTING")) {
       FORCE_SHOW_FORMATTING = Bool.fromString(forceShowFormatting)
+    }
+    if (let forceLinePrefix = System.getEnv("LOGGING_FORCE_LINE_PREFIX")) {
+      FORCE_LINE_PREFIX = forceLinePrefix
+    }
+    if (let forceLineSuffix = System.getEnv("LOGGING_FORCE_LINE_SUFFIX")) {
+      FORCE_LINE_SUFFIX = forceLineSuffix
+    }
+    if (let forcePrefix = System.getEnv("LOGGING_FORCE_PREFIX")) {
+      FORCE_PREFIX = forcePrefix
+    }
+    if (let forceSuffix = System.getEnv("LOGGING_FORCE_SUFFIX")) {
+      FORCE_SUFFIX = forceSuffix
     }
   }
 
@@ -118,6 +150,58 @@ class {
         _lineLength
       } else {
         DEFAULT_LINE_LENGTH
+      }
+    }
+  }
+
+  let String _linePrefix = null
+  visible let String linePrefix {
+    get {
+      return if (FORCE_LINE_PREFIX != null) {
+        FORCE_LINE_PREFIX
+      } else if (_linePrefix != null) {
+        _linePrefix
+      } else {
+        DEFAULT_LINE_PREFIX
+      }
+    }
+  }
+
+  let String _lineSuffix = null
+  visible let String lineSuffix {
+    get {
+      return if (FORCE_LINE_SUFFIX != null) {
+        FORCE_LINE_SUFFIX
+      } else if (_lineSuffix != null) {
+        _lineSuffix
+      } else {
+        DEFAULT_LINE_SUFFIX
+      }
+    }
+  }
+
+  let String _prefix = null
+  visible let String prefix {
+    get {
+      return if (FORCE_PREFIX != null) {
+        FORCE_PREFIX
+      } else if (_prefix != null) {
+        _prefix
+      } else {
+        DEFAULT_PREFIX
+      }
+    }
+  }
+
+  let String _suffix = null
+  visible let String suffix {
+    get {
+      return if (FORCE_SUFFIX != null) {
+        FORCE_SUFFIX
+      } else if (_suffix != null) {
+        _suffix
+      } else {
+        DEFAULT_SUFFIX
       }
     }
   }
@@ -233,7 +317,7 @@ class {
     }
 
     if (!showFormatting) {
-      return content
+      return addSuffix(addPrefix(addLineSuffix(addLinePrefix(content))))
     }
 
     let formatted = match (level) {
@@ -245,7 +329,59 @@ class {
       FATAL => red(content)
     }
 
-    return formatted
+    return addSuffix(addPrefix(addLineSuffix(addLinePrefix(formatted))))
+  }
+
+  addLinePrefix(String content) => content {
+    if (linePrefix) {
+      native var Char[] data
+
+      external {
+        #{data} = #{linePrefix.chars.data} + #{content.chars.data}.replaceAll("\n", "\n" + #{linePrefix.chars.data});
+      }
+
+      return String(data)
+    }
+  }
+
+  addLineSuffix(String content) => content {
+    if (lineSuffix) {
+      native var Char[] data
+
+      external {
+        #{data} = #{content.chars.data}.replaceAll("\n", #{linePrefix.chars.data} + "\n") + #{lineSuffix.chars.data};
+      }
+
+      return String(data)
+    }
+  }
+
+  addPrefix(String content) => content {
+    if (prefix) {
+      return prefix + content
+    }
+  }
+
+  addSuffix(String content) => content {
+    if (suffix) {
+      return content + suffix
+    }
+  }
+
+  public static increaseTab(Int tabCount = 1, String tab = "  ") {
+    if (!DEFAULT_LINE_PREFIX) DEFAULT_LINE_PREFIX = ""
+
+    DEFAULT_LINE_PREFIX += tab.repeat(tabCount)
+  }
+
+  public static decreaseTab(Int tabCount = 1, String tab = "  ") {
+    if (!DEFAULT_LINE_PREFIX) return
+
+    DEFAULT_LINE_PREFIX = DEFAULT_LINE_PREFIX.trimEnd(count: tab.count * tabCount)
+
+    if (DEFAULT_LINE_PREFIX.count == 0) {
+      DEFAULT_LINE_PREFIX = null
+    }
   }
 
   public trace(lazy Object value, Bool: newLine = true) {
