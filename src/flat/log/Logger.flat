@@ -388,6 +388,14 @@ class {
     }
   }
 
+  public static indent<Out>(func() -> Out, Int tabCount = 1, String tab = "  ") -> Out {
+    increaseTab(tabCount, tab)
+    let value = func()
+    decreaseTab(tabCount, tab)
+
+    return value
+  }
+
   public trace(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= TRACE) {
       let content = formatContent(value.toString(), TRACE)
