@@ -25,6 +25,7 @@ class {
   public var static String DEFAULT_LINE_SUFFIX = null
   public var static String DEFAULT_PREFIX = null
   public var static String DEFAULT_SUFFIX = null
+  public var static String DEFAULT_PREFIX_SEPARATOR = " - "
 
   public var static Int FORCE_LOGGING_LEVEL = null
   public var static Bool FORCE_SHOW_PREFIX = null
@@ -35,6 +36,7 @@ class {
   public var static String FORCE_LINE_SUFFIX = null
   public var static String FORCE_PREFIX = null
   public var static String FORCE_SUFFIX = null
+  public var static String FORCE_PREFIX_SEPARATOR = null
 
   [TargetRuntime not browser]
   static {
@@ -68,6 +70,9 @@ class {
     if (let suffix = System.getEnv("LOGGING_DEFAULT_SUFFIX")) {
       DEFAULT_SUFFIX = suffix
     }
+    if (let prefixSeparator = System.getEnv("LOGGING_DEFAULT_PREFIX_SEPARATOR")) {
+      DEFAULT_PREFIX_SEPARATOR = prefixSeparator
+    }
     if (let forceLevel = System.getEnv("LOGGING_FORCE_LOGGING_LEVEL")) {
       let levelValue = match (forceLevel) {
         "TRACE" => TRACE
@@ -97,6 +102,9 @@ class {
     }
     if (let forceSuffix = System.getEnv("LOGGING_FORCE_SUFFIX")) {
       FORCE_SUFFIX = forceSuffix
+    }
+    if (let forcePrefixSeparator = System.getEnv("LOGGING_FORCE_PREFIX_SEPARATOR")) {
+      FORCE_PREFIX_SEPARATOR = forcePrefixSeparator
     }
   }
 
@@ -206,6 +214,19 @@ class {
     }
   }
 
+  let String _prefixSeparator = null
+  visible let String prefixSeparator {
+    get {
+      return if (FORCE_PREFIX_SEPARATOR != null) {
+        FORCE_PREFIX_SEPARATOR
+      } else if (_prefixSeparator != null) {
+        _prefixSeparator
+      } else {
+        DEFAULT_PREFIX_SEPARATOR
+      }
+    }
+  }
+
   let Bool _splitOnWord = null
   visible let Bool splitOnWord {
     get {
@@ -268,9 +289,9 @@ class {
         FATAL => redBackground(content)
       }
 
-      colored + " - "
+      colored + prefixSeparator
     } else {
-      content + " - "
+      content + prefixSeparator
     }
   }
 
