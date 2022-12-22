@@ -417,6 +417,13 @@ class {
     return value
   }
 
+  public trace(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= TRACE) {
+      let content = formatContent(value().toString(), TRACE)
+      logMessage(formatMessage(getPrefix(TRACE) + content), "log", newLine)
+    }
+  }
+
   public trace(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= TRACE) {
       let content = formatContent(value.toString(), TRACE)
@@ -424,10 +431,10 @@ class {
     }
   }
 
-  public traceFunc(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= TRACE) {
-      let content = formatContent(value().toString(), TRACE)
-      logMessage(formatMessage(getPrefix(TRACE) + content), "log", newLine)
+  public debug(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= DEBUG) {
+      let content = formatContent(value().toString(), DEBUG)
+      logMessage(formatMessage(getPrefix(DEBUG) + content), "log", newLine)
     }
   }
 
@@ -438,10 +445,10 @@ class {
     }
   }
 
-  public debugFunc(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= DEBUG) {
-      let content = formatContent(value().toString(), DEBUG)
-      logMessage(formatMessage(getPrefix(DEBUG) + content), "log", newLine)
+  public info(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= INFO) {
+      let content = formatContent(value().toString(), INFO)
+      logMessage(formatMessage(getPrefix(INFO) + content), "log", newLine)
     }
   }
 
@@ -452,10 +459,10 @@ class {
     }
   }
 
-  public infoFunc(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= INFO) {
-      let content = formatContent(value().toString(), INFO)
-      logMessage(formatMessage(getPrefix(INFO) + content), "log", newLine)
+  public warn(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= WARN) {
+      let content = formatContent(value().toString(), WARN)
+      logMessage(formatMessage(getPrefix(WARN) + content), "warn", newLine)
     }
   }
 
@@ -466,10 +473,10 @@ class {
     }
   }
 
-  public warnFunc(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= WARN) {
-      let content = formatContent(value().toString(), WARN)
-      logMessage(formatMessage(getPrefix(WARN) + content), "warn", newLine)
+  public error(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= ERROR) {
+      let content = formatContent(value().toString(), ERROR)
+      logMessage(formatMessage(getPrefix(ERROR) + content), "error", newLine)
     }
   }
 
@@ -480,23 +487,16 @@ class {
     }
   }
 
-  public errorFunc(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= ERROR) {
-      let content = formatContent(value().toString(), ERROR)
-      logMessage(formatMessage(getPrefix(ERROR) + content), "error", newLine)
+  public fatal(value() -> Object, Bool: newLine = true) {
+    if (loggingLevel >= FATAL) {
+      let content = formatContent(value().toString(), FATAL)
+      logMessage(formatMessage(getPrefix(FATAL) + content), "error", newLine)
     }
   }
 
   public fatal(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= FATAL) {
       let content = formatContent(value.toString(), FATAL)
-      logMessage(formatMessage(getPrefix(FATAL) + content), "error", newLine)
-    }
-  }
-
-  public fatalFunc(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= FATAL) {
-      let content = formatContent(value().toString(), FATAL)
       logMessage(formatMessage(getPrefix(FATAL) + content), "error", newLine)
     }
   }
