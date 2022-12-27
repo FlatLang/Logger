@@ -1,5 +1,6 @@
 package flat/log
 
+import flat/io
 import flat/datastruct
 import flat/time/DateTime
 import flat/regex/Pattern
@@ -38,6 +39,13 @@ class {
   public var static String FORCE_PREFIX = null
   public var static String FORCE_SUFFIX = null
   public var static String FORCE_PREFIX_SEPARATOR = null
+
+  public var static OutputStream traceStream = Console.out
+  public var static OutputStream debugStream = Console.out
+  public var static OutputStream infoStream = Console.out
+  public var static OutputStream warnStream = Console.warn
+  public var static OutputStream errorStream = Console.error
+  public var static OutputStream fatalStream = Console.error
 
   [TargetRuntime not browser]
   static {
@@ -330,10 +338,6 @@ class {
     filters.add(filter)
   }
 
-  logMessage(String message, String level, Bool newLine = true) {
-    throw Exception("Not implemented")
-  }
-
   formatContent(var String content, Int level) -> String {
     filters.forEach({ content = (String)_(content) })
 
@@ -450,85 +454,145 @@ class {
 
   public trace(value() -> Object, Bool: newLine = true) {
     if (loggingLevel >= TRACE && !disabled) {
-      let content = formatContent(value().toString(), TRACE)
-      logMessage(formatMessage(getPrefix(TRACE) + content), "log", newLine)
+      let message = formatMessage(getPrefix(TRACE) + formatContent(value().toString(), TRACE))
+
+      if (newLine) {
+        traceStream.writeLine(message)
+      } else {
+        traceStream.write(message)
+      }
     }
   }
 
   public trace(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= TRACE && !disabled) {
-      let content = formatContent(value.toString(), TRACE)
-      logMessage(formatMessage(getPrefix(TRACE) + content), "log", newLine)
+      let message = formatMessage(getPrefix(TRACE) + formatContent(value.toString(), TRACE))
+
+      if (newLine) {
+        traceStream.writeLine(message)
+      } else {
+        traceStream.write(message)
+      }
     }
   }
 
   public debug(value() -> Object, Bool: newLine = true) {
     if (loggingLevel >= DEBUG && !disabled) {
-      let content = formatContent(value().toString(), DEBUG)
-      logMessage(formatMessage(getPrefix(DEBUG) + content), "log", newLine)
+      let message = formatMessage(getPrefix(DEBUG) + formatContent(value().toString(), DEBUG))
+
+      if (newLine) {
+        debugStream.writeLine(message)
+      } else {
+        debugStream.write(message)
+      }
     }
   }
 
   public debug(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= DEBUG && !disabled) {
-      let content = formatContent(value.toString(), DEBUG)
-      logMessage(formatMessage(getPrefix(DEBUG) + content), "log", newLine)
+      let message = formatMessage(getPrefix(DEBUG) + formatContent(value.toString(), DEBUG))
+
+      if (newLine) {
+        debugStream.writeLine(message)
+      } else {
+        debugStream.write(message)
+      }
     }
   }
 
   public info(value() -> Object, Bool: newLine = true) {
     if (loggingLevel >= INFO && !disabled) {
-      let content = formatContent(value().toString(), INFO)
-      logMessage(formatMessage(getPrefix(INFO) + content), "log", newLine)
+      let message = formatMessage(getPrefix(INFO) + formatContent(value().toString(), INFO))
+
+      if (newLine) {
+        infoStream.writeLine(message)
+      } else {
+        infoStream.write(message)
+      }
     }
   }
 
   public info(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= INFO && !disabled) {
-      let content = formatContent(value.toString(), INFO)
-      logMessage(formatMessage(getPrefix(INFO) + content), "log", newLine)
+      let message = formatMessage(getPrefix(INFO) + formatContent(value.toString(), INFO))
+
+      if (newLine) {
+        infoStream.writeLine(message)
+      } else {
+        infoStream.write(message)
+      }
     }
   }
 
   public warn(value() -> Object, Bool: newLine = true) {
     if (loggingLevel >= WARN && !disabled) {
-      let content = formatContent(value().toString(), WARN)
-      logMessage(formatMessage(getPrefix(WARN) + content), "warn", newLine)
+      let message = formatMessage(getPrefix(WARN) + formatContent(value().toString(), WARN))
+
+      if (newLine) {
+        warnStream.writeLine(message)
+      } else {
+        warnStream.write(message)
+      }
     }
   }
 
   public warn(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= WARN && !disabled) {
-      let content = formatContent(value.toString(), WARN)
-      logMessage(formatMessage(getPrefix(WARN) + content), "warn", newLine)
+      let message = formatMessage(getPrefix(WARN) + formatContent(value.toString(), WARN))
+
+      if (newLine) {
+        warnStream.writeLine(message)
+      } else {
+        warnStream.write(message)
+      }
     }
   }
 
   public error(value() -> Object, Bool: newLine = true) {
     if (loggingLevel >= ERROR && !disabled) {
-      let content = formatContent(value().toString(), ERROR)
-      logMessage(formatMessage(getPrefix(ERROR) + content), "error", newLine)
+      let message = formatMessage(getPrefix(ERROR) + formatContent(value().toString(), ERROR))
+
+      if (newLine) {
+        errorStream.writeLine(message)
+      } else {
+        errorStream.write(message)
+      }
     }
   }
 
   public error(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= ERROR && !disabled) {
-      let content = formatContent(value.toString(), ERROR)
-      logMessage(formatMessage(getPrefix(ERROR) + content), "error", newLine)
+      let message = formatMessage(getPrefix(ERROR) + formatContent(value.toString(), ERROR))
+
+      if (newLine) {
+        errorStream.writeLine(message)
+      } else {
+        errorStream.write(message)
+      }
     }
   }
 
   public fatal(value() -> Object, Bool: newLine = true) {
     if (loggingLevel >= FATAL && !disabled) {
-      let content = formatContent(value().toString(), FATAL)
-      logMessage(formatMessage(getPrefix(FATAL) + content), "error", newLine)
+      let message = formatMessage(getPrefix(FATAL) + formatContent(value().toString(), FATAL))
+
+      if (newLine) {
+        fatalStream.writeLine(message)
+      } else {
+        fatalStream.write(message)
+      }
     }
   }
 
   public fatal(lazy Object value, Bool: newLine = true) {
     if (loggingLevel >= FATAL && !disabled) {
-      let content = formatContent(value.toString(), FATAL)
-      logMessage(formatMessage(getPrefix(FATAL) + content), "error", newLine)
+      let message = formatMessage(getPrefix(FATAL) + formatContent(value.toString(), FATAL))
+
+      if (newLine) {
+        fatalStream.writeLine(message)
+      } else {
+        fatalStream.write(message)
+      }
     }
   }
 }
