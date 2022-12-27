@@ -1,5 +1,6 @@
 package flat/log
 
+import flat/datastruct
 import flat/time/DateTime
 import flat/regex/Pattern
 
@@ -242,6 +243,24 @@ class {
 
   Array<filter(String) -> String> filters = Array()
 
+  static var Long currentDisabledLoggersModificationId = 0
+  var Long lastDisabledLoggersModificationId = 0
+
+  var Bool needToCheckDisabled = lastDisabledLoggersModificationId != currentDisabledLoggersModificationId
+
+  var Bool _disabled = false
+  visible Bool disabled {
+    get {
+      if (needToCheckDisabled) {
+        _disabled = loggerClass != null && disabledClasses.contains(loggerClass)
+      }
+
+      return _disabled
+    }
+  }
+
+  static HashSet<Class> disabledClasses = HashSet()
+
   public construct(
     private Class loggerClass = null,
     private String: label = null,
@@ -256,6 +275,18 @@ class {
     _showFormatting = showFormatting
     _lineLength = lineLength
     _splitOnWord = splitOnWord
+  }
+
+  public static disableClassLogs(Class c) {
+    disabledClasses.add(c)
+
+    currentDisabledLoggersModificationId++
+  }
+
+  public static enableClassLogs(Class c) {
+    disabledClasses.remove(c)
+
+    currentDisabledLoggersModificationId++
   }
 
   getPrefix(Int level) -> String {
@@ -418,84 +449,84 @@ class {
   }
 
   public trace(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= TRACE) {
+    if (loggingLevel >= TRACE && !disabled) {
       let content = formatContent(value().toString(), TRACE)
       logMessage(formatMessage(getPrefix(TRACE) + content), "log", newLine)
     }
   }
 
   public trace(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= TRACE) {
+    if (loggingLevel >= TRACE && !disabled) {
       let content = formatContent(value.toString(), TRACE)
       logMessage(formatMessage(getPrefix(TRACE) + content), "log", newLine)
     }
   }
 
   public debug(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= DEBUG) {
+    if (loggingLevel >= DEBUG && !disabled) {
       let content = formatContent(value().toString(), DEBUG)
       logMessage(formatMessage(getPrefix(DEBUG) + content), "log", newLine)
     }
   }
 
   public debug(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= DEBUG) {
+    if (loggingLevel >= DEBUG && !disabled) {
       let content = formatContent(value.toString(), DEBUG)
       logMessage(formatMessage(getPrefix(DEBUG) + content), "log", newLine)
     }
   }
 
   public info(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= INFO) {
+    if (loggingLevel >= INFO && !disabled) {
       let content = formatContent(value().toString(), INFO)
       logMessage(formatMessage(getPrefix(INFO) + content), "log", newLine)
     }
   }
 
   public info(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= INFO) {
+    if (loggingLevel >= INFO && !disabled) {
       let content = formatContent(value.toString(), INFO)
       logMessage(formatMessage(getPrefix(INFO) + content), "log", newLine)
     }
   }
 
   public warn(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= WARN) {
+    if (loggingLevel >= WARN && !disabled) {
       let content = formatContent(value().toString(), WARN)
       logMessage(formatMessage(getPrefix(WARN) + content), "warn", newLine)
     }
   }
 
   public warn(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= WARN) {
+    if (loggingLevel >= WARN && !disabled) {
       let content = formatContent(value.toString(), WARN)
       logMessage(formatMessage(getPrefix(WARN) + content), "warn", newLine)
     }
   }
 
   public error(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= ERROR) {
+    if (loggingLevel >= ERROR && !disabled) {
       let content = formatContent(value().toString(), ERROR)
       logMessage(formatMessage(getPrefix(ERROR) + content), "error", newLine)
     }
   }
 
   public error(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= ERROR) {
+    if (loggingLevel >= ERROR && !disabled) {
       let content = formatContent(value.toString(), ERROR)
       logMessage(formatMessage(getPrefix(ERROR) + content), "error", newLine)
     }
   }
 
   public fatal(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= FATAL) {
+    if (loggingLevel >= FATAL && !disabled) {
       let content = formatContent(value().toString(), FATAL)
       logMessage(formatMessage(getPrefix(FATAL) + content), "error", newLine)
     }
   }
 
   public fatal(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= FATAL) {
+    if (loggingLevel >= FATAL && !disabled) {
       let content = formatContent(value.toString(), FATAL)
       logMessage(formatMessage(getPrefix(FATAL) + content), "error", newLine)
     }

@@ -173,4 +173,33 @@ testable class {
 
     expect(output).toBe(Array())
   }
+
+  async test `can filter logs based on exact klass name`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
+    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.disableClassLogs(Object.class)
+
+    let log = Logger(Object.class)
+
+    let output = Console.out.captureOutput({
+      log.info("hey")
+    })
+
+    expect(output).toBe(Array())
+  }
+
+  async test `can reenable filtered logs based on exact klass name`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
+    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.disableClassLogs(Object.class)
+    Logger.enableClassLogs(Object.class)
+
+    let log = Logger(Object.class)
+
+    let output = Console.out.captureOutput({
+      log.info("hey")
+    })
+
+    expect(output).toBe(Array())
+  }
 }
