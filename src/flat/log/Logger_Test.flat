@@ -2,10 +2,175 @@ package flat/log
 
 import flat/log/Logger
 
-testable class {
-  test `can create`() {
-    let value = Logger()
+import static flat/colorizer/Colorizer
 
-    expect(value).toNotBe(null)
+testable class {
+  init_test init() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
+    Logger.DEFAULT_SHOW_PREFIX = false
+    Logger.DEFAULT_SHOW_FORMATTING = true
+    Logger.DEFAULT_LINE_LENGTH = null
+    Logger.DEFAULT_SPLIT_ON_WORD = true
+    Logger.DEFAULT_LINE_PREFIX = null
+    Logger.DEFAULT_LINE_SUFFIX = null
+    Logger.DEFAULT_PREFIX = null
+    Logger.DEFAULT_SUFFIX = null
+    Logger.DEFAULT_PREFIX_SEPARATOR = " - "
+  }
+
+  async test `can log a basic trace message`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.TRACE
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.out.captureOutput({
+      log.trace("hey")
+    })
+
+    expect(output).toBe(["hey"])
+  }
+
+  async test `doesnt log a basic trace message if logging level is DEBUG`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.DEBUG
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.out.captureOutput({
+      log.trace("hey")
+    })
+
+    expect(output).toBe(Array())
+  }
+
+  async test `can log a basic debug message`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.DEBUG
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.out.captureOutput({
+      log.debug("hey")
+    })
+
+    expect(output).toBe(["hey"])
+  }
+
+  async test `doesnt log a basic debug message if logging level is INFO`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.out.captureOutput({
+      log.debug("hey")
+    })
+
+    expect(output).toBe(Array())
+  }
+
+  async test `can log a basic info message`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.out.captureOutput({
+      log.info("hey")
+    })
+
+    expect(output).toBe(["hey"])
+  }
+
+  async test `doesnt log a basic info message if logging level is WARN`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.WARN
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.out.captureOutput({
+      log.info("hey")
+    })
+
+    expect(output).toBe(Array())
+  }
+
+  async test `can log a basic warn message`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.WARN
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.warn.captureOutput({
+      log.warn("hey")
+    })
+
+    expect(output).toBe(["hey"])
+  }
+
+  async test `doesnt log a basic warn message if logging level is ERROR`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.ERROR
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.warn.captureOutput({
+      log.warn("hey")
+    })
+
+    expect(output).toBe(Array())
+  }
+
+  async test `can log a basic error message`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.ERROR
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.error.captureOutput({
+      log.error("hey")
+    })
+
+    expect(output).toBe(["hey"])
+  }
+
+  async test `doesnt log a basic error message if logging level is FATAL`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.FATAL
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.error.captureOutput({
+      log.error("hey")
+    })
+
+    expect(output).toBe(Array())
+  }
+
+  async test `can log a basic fatal message`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.FATAL
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.error.captureOutput({
+      log.fatal("hey")
+    })
+
+    expect(output).toBe(["hey"])
+  }
+
+  async test `doesnt log a basic fatal message if logging level is OFF`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.OFF
+    Logger.DEFAULT_SHOW_FORMATTING = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.error.captureOutput({
+      log.fatal("hey")
+    })
+
+    expect(output).toBe(Array())
   }
 }
