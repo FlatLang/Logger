@@ -271,9 +271,9 @@ class {
     }
   }
 
-  static var HashSet<Class> disabledClasses = HashSet()
-  static var String[] disabledLabels = String[]
-  static var String[] disabledWildcardLabels = String[]
+  static var HashMap<Class, Int> classLoggingLevels = HashMap()
+  static var HashMap<String, Int> labelLoggingLevels = HashMap
+  static var HashMap<String, Int> wildcardLabelLoggingLevels = HashMap
 
   public construct(
     private Class loggerClass = null,
@@ -322,29 +322,29 @@ class {
     _splitOnWord = splitOnWord
   }
 
-  public static enableAllLogs() {
-    disabledClasses = HashSet()
-    disabledLabels = String[]
-    disabledWildcardLabels = String[]
+  public static resetLoggingLevels() {
+    classLoggingLevels = HashMap()
+    labelLoggingLevels = HashMap()
+    wildcardLabelLoggingLevels = HashMap()
   }
 
   public static disableLogs(Class c) {
-    disabledClasses.add(c)
+    classLoggingLevels[c] = OFF
 
     currentDisabledLoggersModificationId++
   }
 
   public static enableLogs(Class c) {
-    disabledClasses.remove(c)
+    classLoggingLevels.remove(c)
 
     currentDisabledLoggersModificationId++
   }
 
   public static disableLogs(String label) {
     if (label.contains('*')) {
-      disabledWildcardLabels.add(label)
+      wildcardLabelLoggingLevels[label] = OFF
     } else {
-      disabledLabels.add(label)
+      labelLoggingLevels[label] = OFF
     }
 
     currentDisabledLoggersModificationId++
@@ -352,9 +352,9 @@ class {
 
   public static enableLogs(String label) {
     if (label.contains('*')) {
-      disabledWildcardLabels.remove(label)
+      wildcardLabelLoggingLevels.remove(label)
     } else {
-      disabledLabels.remove(label)
+      labelLoggingLevels.remove(label)
     }
 
     currentDisabledLoggersModificationId++
@@ -362,17 +362,15 @@ class {
 
   static isClassDisabled(Class c) => false {
     if (!c) return false
-
-    if (disabledClasses.contains(c)) return true
+    if (classLoggingLevels.any(p => p.value == OFF && p.key == c)) return true
 
     return isLabelDisabled(c.location)
   }
 
   static isLabelDisabled(String label) => false {
     if (!label) return false
-
-    if (disabledLabels.contains(label)) return true
-    if (disabledWildcardLabels.any({ isWildcardMatch(label, _) })) return true
+    if (labelLoggingLevels.any(p => p.value == OFF && p.key == label)) return true
+    if (wildcardLabelLoggingLevels.any(p => p.value == OFF && isWildcardMatch(label, p.key))) return true
   }
 
   static isWildcardMatch(String value, String wildcard) => true {

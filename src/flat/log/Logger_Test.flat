@@ -16,7 +16,7 @@ testable class {
     Logger.defaultPrefix = null
     Logger.defaultSuffix = null
     Logger.defaultPrefixSeparator = " - "
-    Logger.enableAllLogs()
+    Logger.resetLoggingLevels()
   }
 
   async test `can log a basic trace message`() {
