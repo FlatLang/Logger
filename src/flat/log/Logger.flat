@@ -254,33 +254,14 @@ class {
   static var Long currentDisabledLoggersModificationId = 0
   var Long lastDisabledLoggersModificationId = 0
 
-  Bool disabledByClass {
-    get {
-      if (!loggerClass) return false
-
-      return disabledClasses.contains(loggerClass)
-    }
-  }
-
-  Bool disabledByLabel {
-    get {
-      if (!label) return false
-
-      if (disabledLabels.contains(label)) return true
-      if (disabledWildcardLabels.any({ isWildcardMatch(label, _) })) return true
-
-      return false
-    }
-  }
-
   var Bool _disabled = false
   visible Bool disabled {
     get {
       if (lastDisabledLoggersModificationId == currentDisabledLoggersModificationId) return _disabled
 
-      if (disabledByClass) {
+      if (isClassDisabled(loggerClass)) {
         _disabled = true
-      } else if (disabledByLabel) {
+      } else if (isLabelDisabled(label)) {
         _disabled = true
       } else {
         _disabled = false
@@ -350,7 +331,22 @@ class {
     currentDisabledLoggersModificationId++
   }
 
-  isWildcardMatch(String value, String wildcard) => true {
+  static isClassDisabled(Class c) => false {
+    if (!c) return false
+
+    if (disabledClasses.contains(c)) return true
+
+    return isLabelDisabled(c.location)
+  }
+
+  static isLabelDisabled(String label) => false {
+    if (!label) return false
+
+    if (disabledLabels.contains(label)) return true
+    if (disabledWildcardLabels.any({ isWildcardMatch(label, _) })) return true
+  }
+
+  static isWildcardMatch(String value, String wildcard) => true {
     var Int valueIndex = 0
     var Int wildcardIndex = 0
     var Int i = wildcard.indexOf('*')
@@ -376,7 +372,7 @@ class {
     }
   }
 
-  searchInnerWildcardMatch(
+  static searchInnerWildcardMatch(
     String value,
     String wildcard,
     var Int valueIndex,
@@ -389,7 +385,7 @@ class {
     }
   }
 
-  findInnerWildcardMatch(
+  static findInnerWildcardMatch(
     String value,
     String wildcard,
     Int valueStartIndex,

@@ -476,4 +476,46 @@ testable class {
 
     expect(output).toBe(["hey"])
   }
+
+  async test `can filter logs based on exact klass name label`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
+    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.disableLogs("flat/colorizer/Colorizer")
+
+    let log = Logger(Colorizer.class)
+
+    let output = Console.out.captureOutput({
+      log.info("hey")
+    })
+
+    expect(output).toBe(Array())
+  }
+
+  async test `can filter logs based on wildcard klass name label`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
+    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.disableLogs("flat/colorizer/*")
+
+    let log = Logger(Colorizer.class)
+
+    let output = Console.out.captureOutput({
+      log.info("hey")
+    })
+
+    expect(output).toBe(Array())
+  }
+
+  async test `doesnt filter logs based on non-matched wildcard klass name label`() {
+    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
+    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.disableLogs("flat/colorizer/*")
+
+    let log = Logger(Object.class)
+
+    let output = Console.out.captureOutput({
+      log.info("hey")
+    })
+
+    expect(output).toBe(["hey"])
+  }
 }
