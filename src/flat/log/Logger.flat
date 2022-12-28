@@ -18,27 +18,27 @@ class {
   visible static Int FATAL = 1
   visible static Int OFF = 0
 
-  public var static Int DEFAULT_LOGGING_LEVEL = INFO
-  public var static Bool DEFAULT_SHOW_PREFIX = false
-  public var static Bool DEFAULT_SHOW_FORMATTING = true
-  public var static Int DEFAULT_LINE_LENGTH = null
-  public var static Bool DEFAULT_SPLIT_ON_WORD = true
-  public var static String DEFAULT_LINE_PREFIX = null
-  public var static String DEFAULT_LINE_SUFFIX = null
-  public var static String DEFAULT_PREFIX = null
-  public var static String DEFAULT_SUFFIX = null
-  public var static String DEFAULT_PREFIX_SEPARATOR = " - "
+  public var static Int defaultLoggingLevel = INFO
+  public var static Bool defaultShowPrefix = false
+  public var static Bool defaultShowFormatting = true
+  public var static Int defaultLineLength = null
+  public var static Bool defaultSplitOnWord = true
+  public var static String defaultLinePrefix = null
+  public var static String defaultLineSuffix = null
+  public var static String defaultPrefix = null
+  public var static String defaultSuffix = null
+  public var static String defaultPrefixSeparator = " - "
 
-  public var static Int FORCE_LOGGING_LEVEL = null
-  public var static Bool FORCE_SHOW_PREFIX = null
-  public var static Bool FORCE_SHOW_FORMATTING = null
-  public var static Int FORCE_LINE_LENGTH = null
-  public var static Bool FORCE_SPLIT_ON_WORD = null
-  public var static String FORCE_LINE_PREFIX = null
-  public var static String FORCE_LINE_SUFFIX = null
-  public var static String FORCE_PREFIX = null
-  public var static String FORCE_SUFFIX = null
-  public var static String FORCE_PREFIX_SEPARATOR = null
+  public var static Int forceLoggingLevel = null
+  public var static Bool forceShowPrefix = null
+  public var static Bool forceShowFormatting = null
+  public var static Int forceLineLength = null
+  public var static Bool forceSplitOnWord = null
+  public var static String forceLinePrefix = null
+  public var static String forceLineSuffix = null
+  public var static String forcePrefix = null
+  public var static String forceSuffix = null
+  public var static String forcePrefixSeparator = null
 
   public var static OutputStream[] defaultTraceStreams = [Console.out]
   public var static OutputStream[] defaultDebugStreams = [Console.out]
@@ -59,28 +59,28 @@ class {
         "FATAL" => FATAL
       }
 
-      DEFAULT_LOGGING_LEVEL = levelValue
+      defaultLoggingLevel = levelValue
     }
     if (let showPrefix = System.getEnv("LOGGING_DEFAULT_SHOW_PREFIX")) {
-      DEFAULT_SHOW_PREFIX = Bool.fromString(showPrefix)
+      defaultShowPrefix = Bool.fromString(showPrefix)
     }
     if (let showFormatting = System.getEnv("LOGGING_DEFAULT_SHOW_FORMATTING")) {
-      DEFAULT_SHOW_FORMATTING = Bool.fromString(showFormatting)
+      defaultShowFormatting = Bool.fromString(showFormatting)
     }
     if (let linePrefix = System.getEnv("LOGGING_DEFAULT_LINE_PREFIX")) {
-      DEFAULT_LINE_PREFIX = linePrefix
+      defaultLinePrefix = linePrefix
     }
     if (let lineSuffix = System.getEnv("LOGGING_DEFAULT_LINE_SUFFIX")) {
-      DEFAULT_LINE_SUFFIX = lineSuffix
+      defaultLineSuffix = lineSuffix
     }
     if (let prefix = System.getEnv("LOGGING_DEFAULT_PREFIX")) {
-      DEFAULT_PREFIX = prefix
+      defaultPrefix = prefix
     }
     if (let suffix = System.getEnv("LOGGING_DEFAULT_SUFFIX")) {
-      DEFAULT_SUFFIX = suffix
+      defaultSuffix = suffix
     }
     if (let prefixSeparator = System.getEnv("LOGGING_DEFAULT_PREFIX_SEPARATOR")) {
-      DEFAULT_PREFIX_SEPARATOR = prefixSeparator
+      defaultPrefixSeparator = prefixSeparator
     }
     if (let forceLevel = System.getEnv("LOGGING_FORCE_LOGGING_LEVEL")) {
       let levelValue = match (forceLevel) {
@@ -92,40 +92,40 @@ class {
         "FATAL" => FATAL
       }
 
-      FORCE_LOGGING_LEVEL = levelValue
+      forceLoggingLevel = levelValue
     }
     if (let forceShowPrefix = System.getEnv("LOGGING_FORCE_SHOW_PREFIX")) {
-      FORCE_SHOW_PREFIX = Bool.fromString(forceShowPrefix)
+      forceShowPrefix = Bool.fromString(forceShowPrefix)
     }
     if (let forceShowFormatting = System.getEnv("LOGGING_FORCE_SHOW_FORMATTING")) {
-      FORCE_SHOW_FORMATTING = Bool.fromString(forceShowFormatting)
+      forceShowFormatting = Bool.fromString(forceShowFormatting)
     }
     if (let forceLinePrefix = System.getEnv("LOGGING_FORCE_LINE_PREFIX")) {
-      FORCE_LINE_PREFIX = forceLinePrefix
+      forceLinePrefix = forceLinePrefix
     }
     if (let forceLineSuffix = System.getEnv("LOGGING_FORCE_LINE_SUFFIX")) {
-      FORCE_LINE_SUFFIX = forceLineSuffix
+      forceLineSuffix = forceLineSuffix
     }
     if (let forcePrefix = System.getEnv("LOGGING_FORCE_PREFIX")) {
-      FORCE_PREFIX = forcePrefix
+      forcePrefix = forcePrefix
     }
     if (let forceSuffix = System.getEnv("LOGGING_FORCE_SUFFIX")) {
-      FORCE_SUFFIX = forceSuffix
+      forceSuffix = forceSuffix
     }
     if (let forcePrefixSeparator = System.getEnv("LOGGING_FORCE_PREFIX_SEPARATOR")) {
-      FORCE_PREFIX_SEPARATOR = forcePrefixSeparator
+      forcePrefixSeparator = forcePrefixSeparator
     }
   }
 
   let Int _loggingLevel = null
   visible let Int loggingLevel {
     get {
-      return if (FORCE_LOGGING_LEVEL != null) {
-        FORCE_LOGGING_LEVEL
+      return if (forceLoggingLevel != null) {
+        forceLoggingLevel
       } else if (_loggingLevel != null) {
         _loggingLevel
       } else {
-        DEFAULT_LOGGING_LEVEL
+        defaultLoggingLevel
       }
     }
   }
@@ -133,12 +133,12 @@ class {
   let Bool _showPrefix = null
   visible let Bool showPrefix {
     get {
-      return if (FORCE_SHOW_PREFIX != null) {
-        FORCE_SHOW_PREFIX
+      return if (forceShowPrefix != null) {
+        forceShowPrefix
       } else if (_showPrefix != null) {
         _showPrefix
       } else {
-        DEFAULT_SHOW_PREFIX
+        defaultShowPrefix
       }
     }
   }
@@ -146,12 +146,12 @@ class {
   let Bool _showFormatting = null
   visible let Bool showFormatting {
     get {
-      return if (FORCE_SHOW_FORMATTING != null) {
-        FORCE_SHOW_FORMATTING
+      return if (forceShowFormatting != null) {
+        forceShowFormatting
       } else if (_showFormatting != null) {
         _showFormatting
       } else {
-        DEFAULT_SHOW_FORMATTING
+        defaultShowFormatting
       }
     }
   }
@@ -159,12 +159,12 @@ class {
   let Int _lineLength = null
   visible let Int lineLength {
     get {
-      return if (FORCE_LINE_LENGTH != null) {
-        FORCE_LINE_LENGTH
+      return if (forceLineLength != null) {
+        forceLineLength
       } else if (_lineLength != null) {
         _lineLength
       } else {
-        DEFAULT_LINE_LENGTH
+        defaultLineLength
       }
     }
   }
@@ -172,12 +172,12 @@ class {
   let String _linePrefix = null
   visible let String linePrefix {
     get {
-      return if (FORCE_LINE_PREFIX != null) {
-        FORCE_LINE_PREFIX
+      return if (forceLinePrefix != null) {
+        forceLinePrefix
       } else if (_linePrefix != null) {
         _linePrefix
       } else {
-        DEFAULT_LINE_PREFIX
+        defaultLinePrefix
       }
     }
   }
@@ -185,12 +185,12 @@ class {
   let String _lineSuffix = null
   visible let String lineSuffix {
     get {
-      return if (FORCE_LINE_SUFFIX != null) {
-        FORCE_LINE_SUFFIX
+      return if (forceLineSuffix != null) {
+        forceLineSuffix
       } else if (_lineSuffix != null) {
         _lineSuffix
       } else {
-        DEFAULT_LINE_SUFFIX
+        defaultLineSuffix
       }
     }
   }
@@ -198,12 +198,12 @@ class {
   let String _prefix = null
   visible let String prefix {
     get {
-      return if (FORCE_PREFIX != null) {
-        FORCE_PREFIX
+      return if (forcePrefix != null) {
+        forcePrefix
       } else if (_prefix != null) {
         _prefix
       } else {
-        DEFAULT_PREFIX
+        defaultPrefix
       }
     }
   }
@@ -211,12 +211,12 @@ class {
   let String _suffix = null
   visible let String suffix {
     get {
-      return if (FORCE_SUFFIX != null) {
-        FORCE_SUFFIX
+      return if (forceSuffix != null) {
+        forceSuffix
       } else if (_suffix != null) {
         _suffix
       } else {
-        DEFAULT_SUFFIX
+        defaultSuffix
       }
     }
   }
@@ -224,12 +224,12 @@ class {
   let String _prefixSeparator = null
   visible let String prefixSeparator {
     get {
-      return if (FORCE_PREFIX_SEPARATOR != null) {
-        FORCE_PREFIX_SEPARATOR
+      return if (forcePrefixSeparator != null) {
+        forcePrefixSeparator
       } else if (_prefixSeparator != null) {
         _prefixSeparator
       } else {
-        DEFAULT_PREFIX_SEPARATOR
+        defaultPrefixSeparator
       }
     }
   }
@@ -237,12 +237,12 @@ class {
   let Bool _splitOnWord = null
   visible let Bool splitOnWord {
     get {
-      return if (FORCE_SPLIT_ON_WORD != null) {
-        FORCE_SPLIT_ON_WORD
+      return if (forceSplitOnWord != null) {
+        forceSplitOnWord
       } else if (_splitOnWord != null) {
         _splitOnWord
       } else {
-        DEFAULT_SPLIT_ON_WORD
+        defaultSplitOnWord
       }
     }
   }
@@ -568,18 +568,18 @@ class {
   }
 
   public static increaseTab(Int tabCount = 1, String tab = "  ") {
-    if (!DEFAULT_LINE_PREFIX) DEFAULT_LINE_PREFIX = ""
+    if (!defaultLinePrefix) defaultLinePrefix = ""
 
-    DEFAULT_LINE_PREFIX += tab.repeat(tabCount)
+    defaultLinePrefix += tab.repeat(tabCount)
   }
 
   public static decreaseTab(Int tabCount = 1, String tab = "  ") {
-    if (!DEFAULT_LINE_PREFIX) return
+    if (!defaultLinePrefix) return
 
-    DEFAULT_LINE_PREFIX = DEFAULT_LINE_PREFIX.trimEnd(count: tab.count * tabCount)
+    defaultLinePrefix = defaultLinePrefix.trimEnd(count: tab.count * tabCount)
 
-    if (DEFAULT_LINE_PREFIX.count == 0) {
-      DEFAULT_LINE_PREFIX = null
+    if (defaultLinePrefix.count == 0) {
+      defaultLinePrefix = null
     }
   }
 

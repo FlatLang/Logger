@@ -6,22 +6,22 @@ import static flat/colorizer/Colorizer
 
 testable class {
   init_test init() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_PREFIX = false
-    Logger.DEFAULT_SHOW_FORMATTING = true
-    Logger.DEFAULT_LINE_LENGTH = null
-    Logger.DEFAULT_SPLIT_ON_WORD = true
-    Logger.DEFAULT_LINE_PREFIX = null
-    Logger.DEFAULT_LINE_SUFFIX = null
-    Logger.DEFAULT_PREFIX = null
-    Logger.DEFAULT_SUFFIX = null
-    Logger.DEFAULT_PREFIX_SEPARATOR = " - "
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowPrefix = false
+    Logger.defaultShowFormatting = true
+    Logger.defaultLineLength = null
+    Logger.defaultSplitOnWord = true
+    Logger.defaultLinePrefix = null
+    Logger.defaultLineSuffix = null
+    Logger.defaultPrefix = null
+    Logger.defaultSuffix = null
+    Logger.defaultPrefixSeparator = " - "
     Logger.enableAllLogs()
   }
 
   async test `can log a basic trace message`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.TRACE
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.TRACE
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -33,8 +33,8 @@ testable class {
   }
 
   async test `doesnt log a basic trace message if logging level is DEBUG`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.DEBUG
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.DEBUG
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -46,8 +46,8 @@ testable class {
   }
 
   async test `can log a basic debug message`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.DEBUG
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.DEBUG
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -59,8 +59,8 @@ testable class {
   }
 
   async test `doesnt log a basic debug message if logging level is INFO`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -72,8 +72,8 @@ testable class {
   }
 
   async test `can log a basic info message`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -85,8 +85,8 @@ testable class {
   }
 
   async test `doesnt log a basic info message if logging level is WARN`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.WARN
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.WARN
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -98,8 +98,8 @@ testable class {
   }
 
   async test `can log a basic warn message`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.WARN
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.WARN
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -111,8 +111,8 @@ testable class {
   }
 
   async test `doesnt log a basic warn message if logging level is ERROR`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.ERROR
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.ERROR
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -124,8 +124,8 @@ testable class {
   }
 
   async test `can log a basic error message`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.ERROR
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.ERROR
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -137,8 +137,8 @@ testable class {
   }
 
   async test `doesnt log a basic error message if logging level is FATAL`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.FATAL
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.FATAL
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -150,8 +150,8 @@ testable class {
   }
 
   async test `can log a basic fatal message`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.FATAL
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.FATAL
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -163,8 +163,8 @@ testable class {
   }
 
   async test `doesnt log a basic fatal message if logging level is OFF`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.OFF
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.OFF
+    Logger.defaultShowFormatting = false
 
     let log = Logger(Object.class)
 
@@ -176,8 +176,8 @@ testable class {
   }
 
   async test `can filter logs based on exact klass name`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs(Object.class)
 
     let log = Logger(Object.class)
@@ -190,8 +190,8 @@ testable class {
   }
 
   async test `can reenable filtered logs based on exact klass name`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs(Object.class)
     Logger.enableLogs(Object.class)
 
@@ -205,8 +205,8 @@ testable class {
   }
 
   async test `can filter logs based on exact label`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test log")
 
     let log = Logger(label: "test log")
@@ -219,8 +219,8 @@ testable class {
   }
 
   async test `can reenable filtered logs based on exact label`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test log")
     Logger.enableLogs("test log")
 
@@ -234,8 +234,8 @@ testable class {
   }
 
   async test `can filter logs based on wildcard label`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test *")
 
     let log = Logger(label: "test log")
@@ -248,8 +248,8 @@ testable class {
   }
 
   async test `can reenable filtered logs based on wildcard label`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test *")
     Logger.enableLogs("test *")
 
@@ -263,8 +263,8 @@ testable class {
   }
 
   async test `can filter logs based on wildcard label with single wildcard character in between literals`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu")
 
     let log = Logger(label: "test log aoeu")
@@ -277,8 +277,8 @@ testable class {
   }
 
   async test `can reenable filtered logs based on wildcard label with single wildcard character in between literals`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu")
     Logger.enableLogs("test * aoeu")
 
@@ -292,8 +292,8 @@ testable class {
   }
 
   async test `can filter logs based on wildcard label with single wildcard at very end`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test*")
 
     let log = Logger(label: "test")
@@ -306,8 +306,8 @@ testable class {
   }
 
   async test `can reenable filtered logs based on wildcard label with single wildcard at very end`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test*")
     Logger.enableLogs("test*")
 
@@ -321,8 +321,8 @@ testable class {
   }
 
   async test `can filter logs based on wildcard label with two wildcards at very end`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test**")
 
     let log = Logger(label: "test")
@@ -335,8 +335,8 @@ testable class {
   }
 
   async test `can reenable filtered logs based on wildcard label with two wildcards at very end`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test**")
     Logger.enableLogs("test**")
 
@@ -350,8 +350,8 @@ testable class {
   }
 
   async test `can filter logs based on wildcard label with two wildcard characters both in between string literals`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu* a")
 
     let log = Logger(label: "test log aoeuuauaua a")
@@ -364,8 +364,8 @@ testable class {
   }
 
   async test `doesnt filter logs based on wildcard label with two wildcard characters both in between string literals and doesnt match first literal`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu* a")
 
     let log = Logger(label: "teest log aoeuaaa a")
@@ -378,8 +378,8 @@ testable class {
   }
 
   async test `doesnt filter logs based on wildcard label with two wildcard characters both in between string literals and doesnt match middle literal`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu* a")
 
     let log = Logger(label: "test log aooeuuauau a")
@@ -392,8 +392,8 @@ testable class {
   }
 
   async test `can filter logs based on wildcard label with two wildcard characters both in between string literals and middle literal match is empty`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu* a")
 
     let log = Logger(label: "test  aoeuuauau a")
@@ -406,8 +406,8 @@ testable class {
   }
 
   async test `doesnt filter logs based on wildcard label with two wildcard characters both in between string literals and doesnt match last literal`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu* a")
 
     let log = Logger(label: "test log aoeuuauaua")
@@ -420,8 +420,8 @@ testable class {
   }
 
   async test `can reenable filtered logs based on wildcard label with two wildcard characters both in between string literals`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu* a")
     Logger.enableLogs("test * aoeu* a")
 
@@ -435,8 +435,8 @@ testable class {
   }
 
   async test `can filter logs based on wildcard label with two wildcard characters and the last at the very end`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu*")
 
     let log = Logger(label: "test log aoeu")
@@ -449,8 +449,8 @@ testable class {
   }
 
   async test `doesnt filter logs based on wildcard label with two wildcard characters and the last at the very end where it doesnt match`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu*")
 
     let log = Logger(label: "test log aoe")
@@ -463,8 +463,8 @@ testable class {
   }
 
   async test `can reenable filtered logs based on wildcard label with two wildcard characters and the last at the very end`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("test * aoeu*")
     Logger.enableLogs("test * aoeu*")
 
@@ -478,8 +478,8 @@ testable class {
   }
 
   async test `can filter logs based on exact klass name label`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("flat/colorizer/Colorizer")
 
     let log = Logger(Colorizer.class)
@@ -492,8 +492,8 @@ testable class {
   }
 
   async test `can filter logs based on wildcard klass name label`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("flat/colorizer/*")
 
     let log = Logger(Colorizer.class)
@@ -506,8 +506,8 @@ testable class {
   }
 
   async test `doesnt filter logs based on non-matched wildcard klass name label`() {
-    Logger.DEFAULT_LOGGING_LEVEL = Logger.INFO
-    Logger.DEFAULT_SHOW_FORMATTING = false
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
     Logger.disableLogs("flat/colorizer/*")
 
     let log = Logger(Object.class)
