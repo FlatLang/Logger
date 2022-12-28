@@ -283,13 +283,38 @@ class {
     Bool: showFormatting = null,
     Int: lineLength = null,
     Bool: splitOnWord = null,
-    public var OutputStream[]: traceStreams = defaultTraceStreams.copy(),
-    public var OutputStream[]: debugStreams = defaultDebugStreams.copy(),
-    public var OutputStream[]: infoStreams = defaultInfoStreams.copy(),
-    public var OutputStream[]: warnStreams = defaultWarnStreams.copy(),
-    public var OutputStream[]: errorStreams = defaultErrorStreams.copy(),
-    public var OutputStream[]: fatalStreams = defaultFatalStreams.copy()
+    OutputStream: stream = null,
+    OutputStream[]: streams = null,
+    public var OutputStream[]: traceStreams = null,
+    public var OutputStream[]: debugStreams = null,
+    public var OutputStream[]: infoStreams = null,
+    public var OutputStream[]: warnStreams = null,
+    public var OutputStream[]: errorStreams = null,
+    public var OutputStream[]: fatalStreams = null
   ) {
+    if (stream) {
+      this.traceStreams = [stream]
+      this.debugStreams = [stream]
+      this.infoStreams = [stream]
+      this.warnStreams = [stream]
+      this.errorStreams = [stream]
+      this.fatalStreams = [stream]
+    } else if (streams) {
+      this.traceStreams = streams
+      this.debugStreams = streams
+      this.infoStreams = streams
+      this.warnStreams = streams
+      this.errorStreams = streams
+      this.fatalStreams = streams
+    } else {
+      this.traceStreams = traceStreams ?: defaultTraceStreams
+      this.debugStreams = debugStreams ?: defaultDebugStreams
+      this.infoStreams = infoStreams ?: defaultInfoStreams
+      this.warnStreams = warnStreams ?: defaultWarnStreams
+      this.errorStreams = errorStreams ?: defaultErrorStreams
+      this.fatalStreams = fatalStreams ?: defaultFatalStreams
+    }
+
     _loggingLevel = loggingLevel
     _showPrefix = showPrefix
     _showFormatting = showFormatting
