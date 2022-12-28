@@ -254,20 +254,47 @@ class {
   static var Long currentDisabledLoggersModificationId = 0
   var Long lastDisabledLoggersModificationId = 0
 
-  var Bool needToCheckDisabled = lastDisabledLoggersModificationId != currentDisabledLoggersModificationId
+  Bool disabledByClass {
+    get {
+      if (!loggerClass) return false
+
+      return disabledClasses.contains(loggerClass)
+    }
+  }
+
+  Bool disabledByLabel {
+    get {
+      if (!label) return false
+
+      if (disabledLabels.contains(label)) return true
+      if (disabledWildcardLabels.any({ isWildcardMatch(label, _) })) return true
+
+      return false
+    }
+  }
 
   var Bool _disabled = false
   visible Bool disabled {
     get {
-      if (needToCheckDisabled) {
-        _disabled = loggerClass != null && disabledClasses.contains(loggerClass)
+      if (lastDisabledLoggersModificationId == currentDisabledLoggersModificationId) return _disabled
+
+      if (disabledByClass) {
+        _disabled = true
+      } else if (disabledByLabel) {
+        _disabled = true
+      } else {
+        _disabled = false
       }
+
+      lastDisabledLoggersModificationId = currentDisabledLoggersModificationId
 
       return _disabled
     }
   }
 
-  static HashSet<Class> disabledClasses = HashSet()
+  static var HashSet<Class> disabledClasses = HashSet()
+  static var String[] disabledLabels = String[]
+  static var String[] disabledWildcardLabels = String[]
 
   public construct(
     private Class loggerClass = null,
@@ -285,16 +312,103 @@ class {
     _splitOnWord = splitOnWord
   }
 
-  public static disableClassLogs(Class c) {
+  public static enableAllLogs() {
+    disabledClasses = HashSet()
+    disabledLabels = String[]
+    disabledWildcardLabels = String[]
+  }
+
+  public static disableLogs(Class c) {
     disabledClasses.add(c)
 
     currentDisabledLoggersModificationId++
   }
 
-  public static enableClassLogs(Class c) {
+  public static enableLogs(Class c) {
     disabledClasses.remove(c)
 
     currentDisabledLoggersModificationId++
+  }
+
+  public static disableLogs(String label) {
+    if (label.contains('*')) {
+      disabledWildcardLabels.add(label)
+    } else {
+      disabledLabels.add(label)
+    }
+
+    currentDisabledLoggersModificationId++
+  }
+
+  public static enableLogs(String label) {
+    if (label.contains('*')) {
+      disabledWildcardLabels.remove(label)
+    } else {
+      disabledLabels.remove(label)
+    }
+
+    currentDisabledLoggersModificationId++
+  }
+
+  isWildcardMatch(String value, String wildcard) => true {
+    var Int valueIndex = 0
+    var Int wildcardIndex = 0
+    var Int i = wildcard.indexOf('*')
+
+    while (i != -1) {
+      if (!searchInnerWildcardMatch(value, wildcard, valueIndex, wildcardIndex, i)) return false
+
+      wildcardIndex = i + 1
+
+      // Skip grouped wildcard symbols
+      while (++i < wildcard.count && wildcard[i] == '*') {
+        wildcardIndex++
+      }
+
+      i = wildcard.indexOf('*', i)
+
+      if (i == -1 && wildcardIndex == wildcard.count) return true
+
+      valueIndex = findInnerWildcardMatch(value, wildcard, valueIndex, wildcardIndex, i == -1 ? wildcard.count : i)
+
+      if (i == -1) return valueIndex != -1
+      if (valueIndex == -1) return false
+    }
+  }
+
+  searchInnerWildcardMatch(
+    String value,
+    String wildcard,
+    var Int valueIndex,
+    var Int wildcardIndex,
+    Int stopIndex
+  ) => true {
+    while (wildcardIndex < stopIndex) {
+      if (valueIndex >= value.count) return false
+      if (value[valueIndex++] != wildcard[wildcardIndex++]) return false
+    }
+  }
+
+  findInnerWildcardMatch(
+    String value,
+    String wildcard,
+    Int valueStartIndex,
+    Int wildcardStartIndex,
+    Int stopIndex
+  ) -> Int => -1 {
+    var Int wildcardIndex = wildcardStartIndex
+    var Int currentStartIndex = valueStartIndex
+    var Int currentIndex = currentStartIndex
+
+    while (currentIndex < value.count) {
+      if (value[currentIndex++] != wildcard[wildcardIndex++]) {
+        currentStartIndex = currentIndex
+        wildcardIndex = wildcardStartIndex
+        continue
+      }
+      if (currentStartIndex == valueStartIndex) continue
+      if (wildcardIndex == stopIndex) return currentStartIndex
+    }
   }
 
   getPrefix(Int level) -> String {
