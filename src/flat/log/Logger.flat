@@ -125,7 +125,7 @@ class {
       } else if (_loggingLevel != null) {
         _loggingLevel
       } else {
-        defaultLoggingLevel
+        return level
       }
     }
   }
@@ -252,22 +252,24 @@ class {
   static var Long currentDisabledLoggersModificationId = 0
   var Long lastDisabledLoggersModificationId = 0
 
-  var Bool _disabled = false
-  visible Bool disabled {
-    get {
-      if (lastDisabledLoggersModificationId == currentDisabledLoggersModificationId) return _disabled
+  visible Bool disabled => level == OFF
 
-      if (isClassDisabled(loggerClass)) {
-        _disabled = true
-      } else if (isLabelDisabled(label)) {
-        _disabled = true
+  var Int _level = defaultLoggingLevel
+  visible Int level {
+    get {
+      if (lastDisabledLoggersModificationId == currentDisabledLoggersModificationId) return _level
+
+      if (loggerClass) {
+        _level = getClassLoggingLevel(loggerClass)
+      } else if (label) {
+        _level = getLabelLoggingLevel(label)
       } else {
-        _disabled = false
+        _level = defaultLoggingLevel
       }
 
       lastDisabledLoggersModificationId = currentDisabledLoggersModificationId
 
-      return _disabled
+      return _level
     }
   }
 
@@ -372,7 +374,9 @@ class {
 
   static getLabelLoggingLevel(String label) => defaultLoggingLevel {
     if (!label) return defaultLoggingLevel
-    if (labelLoggingLevels.containsKey(label)) return labelLoggingLevels[label]
+    if (labelLoggingLevels.containsKey(label)) {
+      return labelLoggingLevels[label]
+    }
     if (wildcardLabelLoggingLevels.any(p => isWildcardMatch(label, p.key))) return wildcardLabelLoggingLevels.firstWhere(p => isWildcardMatch(label, p.key)).value
   }
 
@@ -601,7 +605,7 @@ class {
   }
 
   public trace(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= TRACE && !disabled) {
+    if (loggingLevel >= TRACE) {
       writeMessage(
         traceStreams,
         formatMessage(getPrefix(TRACE) + formatContent(value().toString(), TRACE)),
@@ -611,7 +615,7 @@ class {
   }
 
   public trace(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= TRACE && !disabled) {
+    if (loggingLevel >= TRACE) {
       writeMessage(
         traceStreams,
         formatMessage(getPrefix(TRACE) + formatContent(value.toString(), TRACE)),
@@ -621,7 +625,7 @@ class {
   }
 
   public debug(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= DEBUG && !disabled) {
+    if (loggingLevel >= DEBUG) {
       writeMessage(
         debugStreams,
         formatMessage(getPrefix(DEBUG) + formatContent(value().toString(), DEBUG)),
@@ -631,7 +635,7 @@ class {
   }
 
   public debug(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= DEBUG && !disabled) {
+    if (loggingLevel >= DEBUG) {
       writeMessage(
         debugStreams,
         formatMessage(getPrefix(DEBUG) + formatContent(value.toString(), DEBUG)),
@@ -641,7 +645,7 @@ class {
   }
 
   public info(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= INFO && !disabled) {
+    if (loggingLevel >= INFO) {
       writeMessage(
         infoStreams,
         formatMessage(getPrefix(INFO) + formatContent(value().toString(), INFO)),
@@ -651,7 +655,7 @@ class {
   }
 
   public info(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= INFO && !disabled) {
+    if (loggingLevel >= INFO) {
       writeMessage(
         infoStreams,
         formatMessage(getPrefix(INFO) + formatContent(value.toString(), INFO)),
@@ -661,7 +665,7 @@ class {
   }
 
   public warn(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= WARN && !disabled) {
+    if (loggingLevel >= WARN) {
       writeMessage(
         warnStreams,
         formatMessage(getPrefix(WARN) + formatContent(value().toString(), WARN)),
@@ -671,7 +675,7 @@ class {
   }
 
   public warn(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= WARN && !disabled) {
+    if (loggingLevel >= WARN) {
       writeMessage(
         warnStreams,
         formatMessage(getPrefix(WARN) + formatContent(value.toString(), WARN)),
@@ -681,7 +685,7 @@ class {
   }
 
   public error(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= ERROR && !disabled) {
+    if (loggingLevel >= ERROR) {
       writeMessage(
         errorStreams,
         formatMessage(getPrefix(ERROR) + formatContent(value().toString(), ERROR)),
@@ -691,7 +695,7 @@ class {
   }
 
   public error(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= ERROR && !disabled) {
+    if (loggingLevel >= ERROR) {
       writeMessage(
         errorStreams,
         formatMessage(getPrefix(ERROR) + formatContent(value.toString(), ERROR)),
@@ -701,7 +705,7 @@ class {
   }
 
   public fatal(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= FATAL && !disabled) {
+    if (loggingLevel >= FATAL) {
       writeMessage(
         fatalStreams,
         formatMessage(getPrefix(FATAL) + formatContent(value().toString(), FATAL)),
@@ -711,7 +715,7 @@ class {
   }
 
   public fatal(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= FATAL && !disabled) {
+    if (loggingLevel >= FATAL) {
       writeMessage(
         fatalStreams,
         formatMessage(getPrefix(FATAL) + formatContent(value.toString(), FATAL)),
