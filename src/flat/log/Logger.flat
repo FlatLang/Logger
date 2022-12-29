@@ -274,8 +274,8 @@ class {
   }
 
   static var HashMap<Class, Int> classLoggingLevels = HashMap()
-  static var HashMap<String, Int> labelLoggingLevels = HashMap
-  static var HashMap<String, Int> wildcardLabelLoggingLevels = HashMap
+  static var HashMap<String, Int> labelLoggingLevels = HashMap()
+  static var HashMap<String, Int> wildcardLabelLoggingLevels = HashMap()
 
   public construct(
     private Class loggerClass = null,
