@@ -649,122 +649,122 @@ class {
   }
 
   public trace(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= TRACE) {
-      writeMessage(
-        traceStreams,
-        formatMessage(getPrefix(TRACE) + formatContent(value().toString(), TRACE)),
-        newLine
-      )
-    }
+    if (loggingLevel < TRACE) return
+
+    writeMessage(
+      traceStreams,
+      formatMessage(getPrefix(TRACE) + formatContent(value().toString(), TRACE)),
+      newLine
+    )
   }
 
   public trace(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= TRACE) {
-      writeMessage(
-        traceStreams,
-        formatMessage(getPrefix(TRACE) + formatContent(value.toString(), TRACE)),
-        newLine
-      )
-    }
+    if (loggingLevel < TRACE) return
+
+    writeMessage(
+      traceStreams,
+      formatMessage(getPrefix(TRACE) + formatContent(value.toString(), TRACE)),
+      newLine
+    )
   }
 
   public debug(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= DEBUG) {
-      writeMessage(
-        debugStreams,
-        formatMessage(getPrefix(DEBUG) + formatContent(value().toString(), DEBUG)),
-        newLine
-      )
-    }
+    if (loggingLevel < DEBUG) return
+
+    writeMessage(
+      debugStreams,
+      formatMessage(getPrefix(DEBUG) + formatContent(value().toString(), DEBUG)),
+      newLine
+    )
   }
 
   public debug(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= DEBUG) {
-      writeMessage(
-        debugStreams,
-        formatMessage(getPrefix(DEBUG) + formatContent(value.toString(), DEBUG)),
-        newLine
-      )
-    }
+    if (loggingLevel < DEBUG) return
+
+    writeMessage(
+      debugStreams,
+      formatMessage(getPrefix(DEBUG) + formatContent(value.toString(), DEBUG)),
+      newLine
+    )
   }
 
   public info(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= INFO) {
-      writeMessage(
-        infoStreams,
-        formatMessage(getPrefix(INFO) + formatContent(value().toString(), INFO)),
-        newLine
-      )
-    }
+    if (loggingLevel < INFO) return
+
+    writeMessage(
+      infoStreams,
+      formatMessage(getPrefix(INFO) + formatContent(value().toString(), INFO)),
+      newLine
+    )
   }
 
   public info(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= INFO) {
-      writeMessage(
-        infoStreams,
-        formatMessage(getPrefix(INFO) + formatContent(value.toString(), INFO)),
-        newLine
-      )
-    }
+    if (loggingLevel < INFO) return
+
+    writeMessage(
+      infoStreams,
+      formatMessage(getPrefix(INFO) + formatContent(value.toString(), INFO)),
+      newLine
+    )
   }
 
   public warn(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= WARN) {
-      writeMessage(
-        warnStreams,
-        formatMessage(getPrefix(WARN) + formatContent(value().toString(), WARN)),
-        newLine
-      )
-    }
+    if (loggingLevel < WARN) return
+
+    writeMessage(
+      warnStreams,
+      formatMessage(getPrefix(WARN) + formatContent(value().toString(), WARN)),
+      newLine
+    )
   }
 
   public warn(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= WARN) {
-      writeMessage(
-        warnStreams,
-        formatMessage(getPrefix(WARN) + formatContent(value.toString(), WARN)),
-        newLine
-      )
-    }
+    if (loggingLevel < WARN) return
+
+    writeMessage(
+      warnStreams,
+      formatMessage(getPrefix(WARN) + formatContent(value.toString(), WARN)),
+      newLine
+    )
   }
 
   public error(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= ERROR) {
-      writeMessage(
-        errorStreams,
-        formatMessage(getPrefix(ERROR) + formatContent(value().toString(), ERROR)),
-        newLine
-      )
-    }
+    if (loggingLevel < ERROR) return
+
+    writeMessage(
+      errorStreams,
+      formatMessage(getPrefix(ERROR) + formatContent(value().toString(), ERROR)),
+      newLine
+    )
   }
 
   public error(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= ERROR) {
-      writeMessage(
-        errorStreams,
-        formatMessage(getPrefix(ERROR) + formatContent(value.toString(), ERROR)),
-        newLine
-      )
-    }
+    if (loggingLevel < ERROR) return
+
+    writeMessage(
+      errorStreams,
+      formatMessage(getPrefix(ERROR) + formatContent(value.toString(), ERROR)),
+      newLine
+    )
   }
 
   public fatal(value() -> Object, Bool: newLine = true) {
-    if (loggingLevel >= FATAL) {
-      writeMessage(
-        fatalStreams,
-        formatMessage(getPrefix(FATAL) + formatContent(value().toString(), FATAL)),
-        newLine
-      )
-    }
+    if (loggingLevel < FATAL) return
+
+    writeMessage(
+      fatalStreams,
+      formatMessage(getPrefix(FATAL) + formatContent(value().toString(), FATAL)),
+      newLine
+    )
   }
 
   public fatal(lazy Object value, Bool: newLine = true) {
-    if (loggingLevel >= FATAL) {
-      writeMessage(
-        fatalStreams,
-        formatMessage(getPrefix(FATAL) + formatContent(value.toString(), FATAL)),
-        newLine
-      )
-    }
+    if (loggingLevel < FATAL) return
+
+    writeMessage(
+      fatalStreams,
+      formatMessage(getPrefix(FATAL) + formatContent(value.toString(), FATAL)),
+      newLine
+    )
   }
 }
