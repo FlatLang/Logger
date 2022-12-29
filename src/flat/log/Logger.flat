@@ -49,52 +49,43 @@ class {
 
   [TargetRuntime not browser]
   static {
-    if (let traceLoggingLabels = System.getEnv("LOGGING_TRACE_LOGGING_LABELS")) {
+    if (let traceLoggingLabels = System.getEnv("LOGGING_TRACE_LABEL_LOGGING_LEVELS")) {
       traceLoggingLabels.split(";").forEach({
         setLoggingLevel(_, TRACE)
       })
     }
-    if (let debugLoggingLabels = System.getEnv("LOGGING_DEBUG_LOGGING_LABELS")) {
+    if (let debugLoggingLabels = System.getEnv("LOGGING_DEBUG_LABEL_LOGGING_LEVELS")) {
       debugLoggingLabels.split(";").forEach({
         setLoggingLevel(_, DEBUG)
       })
     }
-    if (let infoLoggingLabels = System.getEnv("LOGGING_INFO_LOGGING_LABELS")) {
+    if (let infoLoggingLabels = System.getEnv("LOGGING_INFO_LABEL_LOGGING_LEVELS")) {
       infoLoggingLabels.split(";").forEach({
         setLoggingLevel(_, INFO)
       })
     }
-    if (let warnLoggingLabels = System.getEnv("LOGGING_WARN_LOGGING_LABELS")) {
+    if (let warnLoggingLabels = System.getEnv("LOGGING_WARN_LABEL_LOGGING_LEVELS")) {
       warnLoggingLabels.split(";").forEach({
         setLoggingLevel(_, WARN)
       })
     }
-    if (let errorLoggingLabels = System.getEnv("LOGGING_ERROR_LOGGING_LABELS")) {
+    if (let errorLoggingLabels = System.getEnv("LOGGING_ERROR_LABEL_LOGGING_LEVELS")) {
       errorLoggingLabels.split(";").forEach({
         setLoggingLevel(_, ERROR)
       })
     }
-    if (let fatalLoggingLabels = System.getEnv("LOGGING_FATAL_LOGGING_LABELS")) {
+    if (let fatalLoggingLabels = System.getEnv("LOGGING_FATAL_LABEL_LOGGING_LEVELS")) {
       fatalLoggingLabels.split(";").forEach({
         setLoggingLevel(_, FATAL)
       })
     }
-    if (let offLoggingLabels = System.getEnv("LOGGING_OFF_LOGGING_LABELS")) {
+    if (let offLoggingLabels = System.getEnv("LOGGING_OFF_LABEL_LOGGING_LEVELS")) {
       offLoggingLabels.split(";").forEach({
         setLoggingLevel(_, OFF)
       })
     }
     if (let level = System.getEnv("LOGGING_DEFAULT_LOGGING_LEVEL")) {
-      let levelValue = match (level) {
-        "TRACE" => TRACE
-        "DEBUG" => DEBUG
-        "INFO" => INFO
-        "WARN" => WARN
-        "ERROR" => ERROR
-        "FATAL" => FATAL
-      }
-
-      defaultLoggingLevel = levelValue
+      defaultLoggingLevel = getLevelFromString(level)
     }
     if (let showPrefix = System.getEnv("LOGGING_DEFAULT_SHOW_PREFIX")) {
       defaultShowPrefix = Bool.fromString(showPrefix)
@@ -118,16 +109,7 @@ class {
       defaultPrefixSeparator = prefixSeparator
     }
     if (let forceLevel = System.getEnv("LOGGING_FORCE_LOGGING_LEVEL")) {
-      let levelValue = match (forceLevel) {
-        "TRACE" => TRACE
-        "DEBUG" => DEBUG
-        "INFO" => INFO
-        "WARN" => WARN
-        "ERROR" => ERROR
-        "FATAL" => FATAL
-      }
-
-      forceLoggingLevel = levelValue
+      forceLoggingLevel = getLevelFromString(forceLevel)
     }
     if (let forceShowPrefix = System.getEnv("LOGGING_FORCE_SHOW_PREFIX")) {
       forceShowPrefix = Bool.fromString(forceShowPrefix)
@@ -481,6 +463,18 @@ class {
       }
       if (currentStartIndex == valueStartIndex) continue
       if (wildcardIndex == stopIndex) return currentStartIndex
+    }
+  }
+
+  static getLevelFromString(String str) -> Int {
+    return match (str) {
+      "TRACE" => TRACE
+      "DEBUG" => DEBUG
+      "INFO" => INFO
+      "WARN" => WARN
+      "ERROR" => ERROR
+      "FATAL" => FATAL
+      default => defaultLoggingLevel
     }
   }
 
