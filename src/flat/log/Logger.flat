@@ -49,6 +49,41 @@ class {
 
   [TargetRuntime not browser]
   static {
+    if (let traceLoggingLabels = System.getEnv("LOGGING_TRACE_LOGGING_LABELS")) {
+      traceLoggingLabels.split(";").forEach({
+        setLoggingLevel(_, TRACE)
+      })
+    }
+    if (let debugLoggingLabels = System.getEnv("LOGGING_DEBUG_LOGGING_LABELS")) {
+      debugLoggingLabels.split(";").forEach({
+        setLoggingLevel(_, DEBUG)
+      })
+    }
+    if (let infoLoggingLabels = System.getEnv("LOGGING_INFO_LOGGING_LABELS")) {
+      infoLoggingLabels.split(";").forEach({
+        setLoggingLevel(_, INFO)
+      })
+    }
+    if (let warnLoggingLabels = System.getEnv("LOGGING_WARN_LOGGING_LABELS")) {
+      warnLoggingLabels.split(";").forEach({
+        setLoggingLevel(_, WARN)
+      })
+    }
+    if (let errorLoggingLabels = System.getEnv("LOGGING_ERROR_LOGGING_LABELS")) {
+      errorLoggingLabels.split(";").forEach({
+        setLoggingLevel(_, ERROR)
+      })
+    }
+    if (let fatalLoggingLabels = System.getEnv("LOGGING_FATAL_LOGGING_LABELS")) {
+      fatalLoggingLabels.split(";").forEach({
+        setLoggingLevel(_, FATAL)
+      })
+    }
+    if (let offLoggingLabels = System.getEnv("LOGGING_OFF_LOGGING_LABELS")) {
+      offLoggingLabels.split(";").forEach({
+        setLoggingLevel(_, OFF)
+      })
+    }
     if (let level = System.getEnv("LOGGING_DEFAULT_LOGGING_LEVEL")) {
       let levelValue = match (level) {
         "TRACE" => TRACE
