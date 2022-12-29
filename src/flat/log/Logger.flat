@@ -360,17 +360,20 @@ class {
     currentDisabledLoggersModificationId++
   }
 
-  static isClassDisabled(Class c) => false {
-    if (!c) return false
-    if (classLoggingLevels.any(p => p.value == OFF && p.key == c)) return true
+  static isClassDisabled(Class c) => getClassLoggingLevel(c) == OFF
+  static isLabelDisabled(String label) => getLabelLoggingLevel(label) == OFF
 
-    return isLabelDisabled(c.location)
+  static getClassLoggingLevel(Class c) => defaultLoggingLevel {
+    if (!c) return defaultLoggingLevel
+    if (classLoggingLevels.containsKey(c)) return classLoggingLevels[c]
+
+    return getLabelLoggingLevel(c.location)
   }
 
-  static isLabelDisabled(String label) => false {
-    if (!label) return false
-    if (labelLoggingLevels.any(p => p.value == OFF && p.key == label)) return true
-    if (wildcardLabelLoggingLevels.any(p => p.value == OFF && isWildcardMatch(label, p.key))) return true
+  static getLabelLoggingLevel(String label) => defaultLoggingLevel {
+    if (!label) return defaultLoggingLevel
+    if (labelLoggingLevels.containsKey(label)) return labelLoggingLevels[label]
+    if (wildcardLabelLoggingLevels.any(p => isWildcardMatch(label, p.key))) return wildcardLabelLoggingLevels.firstWhere(p => isWildcardMatch(label, p.key)).value
   }
 
   static isWildcardMatch(String value, String wildcard) => true {
