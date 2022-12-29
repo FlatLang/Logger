@@ -331,7 +331,11 @@ class {
   }
 
   public static disableLogs(Class c) {
-    classLoggingLevels[c] = OFF
+    setLoggingLevel(c, OFF)
+  }
+
+  public static setLoggingLevel(Class c, Int level) {
+    classLoggingLevels[c] = level
 
     currentDisabledLoggersModificationId++
   }
@@ -343,10 +347,14 @@ class {
   }
 
   public static disableLogs(String label) {
+    setLoggingLevel(label, OFF)
+  }
+
+  public static setLoggingLevel(String label, Int level) {
     if (label.contains('*')) {
-      wildcardLabelLoggingLevels[label] = OFF
+      wildcardLabelLoggingLevels[label] = level
     } else {
-      labelLoggingLevels[label] = OFF
+      labelLoggingLevels[label] = level
     }
 
     currentDisabledLoggersModificationId++
