@@ -18,7 +18,19 @@ class {
   visible static Int FATAL = 1
   visible static Int OFF = 0
 
-  public var static Int defaultLoggingLevel = INFO
+  var static Int _defaultLoggingLevel = INFO
+  public var static Int defaultLoggingLevel {
+    get {
+      return _defaultLoggingLevel
+    }
+
+    set {
+      _defaultLoggingLevel = value
+
+      currentDisabledLoggersModificationId++
+    }
+  }
+
   public var static Bool defaultShowPrefix = false
   public var static Bool defaultShowFormatting = true
   public var static Int defaultLineLength = null
@@ -273,7 +285,7 @@ class {
 
   Array<filter(String) -> String> filters = Array()
 
-  static var Long currentDisabledLoggersModificationId = 0
+  static var Long currentDisabledLoggersModificationId = 1
   var Long lastDisabledLoggersModificationId = 0
 
   visible Bool disabled => level == OFF
