@@ -349,6 +349,36 @@ testable class {
     expect(output).toBe(["hey"])
   }
 
+  async test `can reenable filtered logs based on wildcard label with seven wildcards at very end`() {
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
+    Logger.disableLogs("test*******")
+    Logger.enableLogs("test*******")
+
+    let log = Logger(label: "test")
+
+    let output = Console.out.captureOutput({
+      log.info("hey")
+    })
+
+    expect(output).toBe(["hey"])
+  }
+
+  async test `can reenable filtered logs based on wildcard label with seven wildcards in the middle`() {
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
+    Logger.disableLogs("test*******aa")
+    Logger.enableLogs("test*******aa")
+
+    let log = Logger(label: "testaoeuaoeuoeau aa")
+
+    let output = Console.out.captureOutput({
+      log.info("hey")
+    })
+
+    expect(output).toBe(["hey"])
+  }
+
   async test `can filter logs based on wildcard label with two wildcard characters both in between string literals`() {
     Logger.defaultLoggingLevel = Logger.INFO
     Logger.defaultShowFormatting = false
