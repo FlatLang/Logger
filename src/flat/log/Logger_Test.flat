@@ -548,4 +548,33 @@ testable class {
 
     expect(output).toBe(["hey"])
   }
+
+  async test `can log a lazy info message`() {
+    Logger.defaultLoggingLevel = Logger.INFO
+    Logger.defaultShowFormatting = false
+
+    let log = Logger(Object.class)
+
+    let output = Console.out.captureOutput({
+      log.info("hey")
+    })
+
+    expect(output).toBe(["hey"])
+  }
+
+  async test `doesnt construct parameter value of a lazy info message`() {
+    Logger.defaultLoggingLevel = Logger.WARN
+    Logger.defaultShowFormatting = false
+
+    let log = Logger(Object.class)
+
+    var Int value = 0
+
+    let output = Console.out.captureOutput({
+      log.info("hey #{value++}")
+    })
+
+    expect(output).toBe(Array())
+    expect(value).toBe(0)
+  }
 }
