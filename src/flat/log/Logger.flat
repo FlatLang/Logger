@@ -8,6 +8,7 @@ import flat/regex/Pattern
 import flat/regex/RegexStringExtensions
 
 import static flat/colorizer/Colorizer
+import static flat/stream/StreamListExtensions
 
 class {
   visible static Int TRACE = 6
