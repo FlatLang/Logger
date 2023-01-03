@@ -64,6 +64,7 @@ class {
     if (let labelLoggingLevels = System.getEnv("LOGGING_LABEL_LOGGING_LEVELS")) {
       labelLoggingLevels
         .split(";")
+        .stream()
         .map({ _.split(":") })
         .filter({ _.count == 2 })
         .forEach(values => setLoggingLevel((String)values[0], getLevelFromString((String)values[1])))
@@ -485,6 +486,7 @@ class {
     if (_lineLength != null) {
       content = content
         .split(/\n/)
+        .stream()
         .map((line) => {
           let trimmedLines = Array<String>()
 
