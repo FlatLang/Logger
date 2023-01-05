@@ -68,7 +68,7 @@ class {
         .stream()
         .map({ _.split(":") })
         .filter({ _.count == 2 })
-        .forEach(values => setLoggingLevel((String)values[0], getLevelFromString((String)values[1])))
+        .forEach({ setLoggingLevel((String)_x[0], getLevelFromString((String)_x[1])) })
     }
     if (let traceLoggingLabels = System.getEnv("LOGGING_TRACE_LABEL_LOGGING_LEVELS")) {
       traceLoggingLabels.split(";").forEach({
@@ -423,8 +423,8 @@ class {
     if (labelLoggingLevels.containsKey(label)) {
       return labelLoggingLevels[label]
     }
-    if (wildcardLabelLoggingLevels.any(p => WildcardHelper.isWildcardMatch(label, p.key))) {
-      return wildcardLabelLoggingLevels.firstWhere(p => WildcardHelper.isWildcardMatch(label, p.key)).value
+    if (wildcardLabelLoggingLevels.any({ WildcardHelper.isWildcardMatch(label, _.key) })) {
+      return wildcardLabelLoggingLevels.firstWhere({ WildcardHelper.isWildcardMatch(label, _.key) }).value
     }
   }
 
