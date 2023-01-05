@@ -488,22 +488,22 @@ class {
       content = content
         .split(/\n/)
         .stream()
-        .map((line) => {
+        .map({
           let trimmedLines = Array<String>()
 
           var i = 0
 
-          while (i < line.count) {
-            if (i + lineLength >= line.count) {
-              trimmedLines.add(line.substring(i).trimEnd())
+          while (i < _x.count) {
+            if (i + lineLength >= _x.count) {
+              trimmedLines.add(_x.substring(i).trimEnd())
               break
             }
 
             let splitIndex = splitOnWord ?
-              line.lastIndexOf(String.WHITESPACE, start: i + lineLength) + 1 :
+              _x.lastIndexOf(String.WHITESPACE, start: i + lineLength) + 1 :
               i + lineLength
 
-            let trimmedLine = line.substring(i, splitIndex).trimEnd()
+            let trimmedLine = _x.substring(i, splitIndex).trimEnd()
 
             trimmedLines.add(trimmedLine)
 
