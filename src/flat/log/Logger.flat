@@ -534,7 +534,7 @@ class {
 
   addLinePrefix(String content) => content {
     if (linePrefix) {
-      native var Char[] data
+      native_array native var Char[] data
 
       external {
         #{data} = #{linePrefix.chars.data} + #{content.chars.data}.replaceAll("\n", "\n" + #{linePrefix.chars.data});
@@ -546,7 +546,7 @@ class {
 
   addLineSuffix(String content) => content {
     if (lineSuffix) {
-      native var Char[] data
+      native_array native var Char[] data
 
       external {
         #{data} = #{content.chars.data}.replaceAll("\n", #{linePrefix.chars.data} + "\n") + #{lineSuffix.chars.data};
