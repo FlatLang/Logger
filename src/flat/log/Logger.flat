@@ -132,26 +132,26 @@ class {
     if (let forceLevel = System.getEnv("LOGGING_FORCE_LOGGING_LEVEL")) {
       forceLoggingLevel = getLevelFromString(forceLevel)
     }
-    if (let forceShowPrefix = System.getEnv("LOGGING_FORCE_SHOW_PREFIX")) {
-      forceShowPrefix = Bool.fromString(forceShowPrefix)
+    if (let forceShowPrefixEnv = System.getEnv("LOGGING_FORCE_SHOW_PREFIX")) {
+      forceShowPrefix = Bool.fromString(forceShowPrefixEnv)
     }
-    if (let forceShowFormatting = System.getEnv("LOGGING_FORCE_SHOW_FORMATTING")) {
-      forceShowFormatting = Bool.fromString(forceShowFormatting)
+    if (let forceShowFormattingEnv = System.getEnv("LOGGING_FORCE_SHOW_FORMATTING")) {
+      forceShowFormatting = Bool.fromString(forceShowFormattingEnv)
     }
-    if (let forceLinePrefix = System.getEnv("LOGGING_FORCE_LINE_PREFIX")) {
-      forceLinePrefix = forceLinePrefix
+    if (let forceLinePrefixEnv = System.getEnv("LOGGING_FORCE_LINE_PREFIX")) {
+      forceLinePrefix = forceLinePrefixEnv
     }
-    if (let forceLineSuffix = System.getEnv("LOGGING_FORCE_LINE_SUFFIX")) {
-      forceLineSuffix = forceLineSuffix
+    if (let forceLineSuffixEnv = System.getEnv("LOGGING_FORCE_LINE_SUFFIX")) {
+      forceLineSuffix = forceLineSuffixEnv
     }
-    if (let forcePrefix = System.getEnv("LOGGING_FORCE_PREFIX")) {
-      forcePrefix = forcePrefix
+    if (let forcePrefixEnv = System.getEnv("LOGGING_FORCE_PREFIX")) {
+      forcePrefix = forcePrefixEnv
     }
-    if (let forceSuffix = System.getEnv("LOGGING_FORCE_SUFFIX")) {
-      forceSuffix = forceSuffix
+    if (let forceSuffixEnv = System.getEnv("LOGGING_FORCE_SUFFIX")) {
+      forceSuffix = forceSuffixEnv
     }
-    if (let forcePrefixSeparator = System.getEnv("LOGGING_FORCE_PREFIX_SEPARATOR")) {
-      forcePrefixSeparator = forcePrefixSeparator
+    if (let forcePrefixSeparatorEnv = System.getEnv("LOGGING_FORCE_PREFIX_SEPARATOR")) {
+      forcePrefixSeparator = forcePrefixSeparatorEnv
     }
   }
 
