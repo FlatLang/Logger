@@ -32,21 +32,21 @@ class {
     }
   }
 
-  public var static Bool defaultShowPrefix = false
-  public var static Bool defaultShowFormatting = true
-  public var static Int defaultLineLength = null
-  public var static Bool defaultSplitOnWord = true
+  public var static Bool? defaultShowPrefix = false
+  public var static Bool? defaultShowFormatting = true
+  public var static Int? defaultLineLength = null
+  public var static Bool? defaultSplitOnWord = true
   public var static String defaultLinePrefix = null
   public var static String defaultLineSuffix = null
   public var static String defaultPrefix = null
   public var static String defaultSuffix = null
   public var static String defaultPrefixSeparator = " - "
 
-  public var static Int forceLoggingLevel = null
-  public var static Bool forceShowPrefix = null
-  public var static Bool forceShowFormatting = null
-  public var static Int forceLineLength = null
-  public var static Bool forceSplitOnWord = null
+  public var static Int? forceLoggingLevel = null
+  public var static Bool? forceShowPrefix = null
+  public var static Bool? forceShowFormatting = null
+  public var static Int? forceLineLength = null
+  public var static Bool? forceSplitOnWord = null
   public var static String forceLinePrefix = null
   public var static String forceLineSuffix = null
   public var static String forcePrefix = null
@@ -155,8 +155,8 @@ class {
     }
   }
 
-  let Int _loggingLevel = null
-  visible let Int loggingLevel {
+  var Int? _loggingLevel = null
+  public var Int? loggingLevel {
     get {
       return if (forceLoggingLevel != null) {
         forceLoggingLevel
@@ -166,10 +166,14 @@ class {
         return level
       }
     }
+
+    set {
+      _loggingLevel = value
+    }
   }
 
-  let Bool _showPrefix = null
-  visible let Bool showPrefix {
+  var Bool? _showPrefix = null
+  public var Bool? showPrefix {
     get {
       return if (forceShowPrefix != null) {
         forceShowPrefix
@@ -179,10 +183,14 @@ class {
         defaultShowPrefix
       }
     }
+
+    set {
+      _showPrefix = value
+    }
   }
 
-  let Bool _showFormatting = null
-  visible let Bool showFormatting {
+  var Bool? _showFormatting = null
+  public var Bool? showFormatting {
     get {
       return if (forceShowFormatting != null) {
         forceShowFormatting
@@ -192,10 +200,14 @@ class {
         defaultShowFormatting
       }
     }
+
+    set {
+      _showFormatting = value
+    }
   }
 
-  let Int _lineLength = null
-  visible let Int lineLength {
+  var Int? _lineLength = null
+  public var Int? lineLength {
     get {
       return if (forceLineLength != null) {
         forceLineLength
@@ -205,10 +217,14 @@ class {
         defaultLineLength
       }
     }
+
+    set {
+      _lineLength = value
+    }
   }
 
-  let String _linePrefix = null
-  visible let String linePrefix {
+  var String _linePrefix = null
+  public var String linePrefix {
     get {
       return if (forceLinePrefix != null) {
         forceLinePrefix
@@ -218,10 +234,14 @@ class {
         defaultLinePrefix
       }
     }
+
+    set {
+      _linePrefix = value
+    }
   }
 
-  let String _lineSuffix = null
-  visible let String lineSuffix {
+  var String _lineSuffix = null
+  public var String lineSuffix {
     get {
       return if (forceLineSuffix != null) {
         forceLineSuffix
@@ -231,10 +251,14 @@ class {
         defaultLineSuffix
       }
     }
+
+    set {
+      _lineSuffix = value
+    }
   }
 
-  let String _prefix = null
-  visible let String prefix {
+  var String _prefix = null
+  public var String prefix {
     get {
       return if (forcePrefix != null) {
         forcePrefix
@@ -244,10 +268,14 @@ class {
         defaultPrefix
       }
     }
+
+    set {
+      _prefix = value
+    }
   }
 
-  let String _suffix = null
-  visible let String suffix {
+  var String _suffix = null
+  public var String suffix {
     get {
       return if (forceSuffix != null) {
         forceSuffix
@@ -257,10 +285,14 @@ class {
         defaultSuffix
       }
     }
+
+    set {
+      _suffix = value
+    }
   }
 
-  let String _prefixSeparator = null
-  visible let String prefixSeparator {
+  var String _prefixSeparator = null
+  public var String prefixSeparator {
     get {
       return if (forcePrefixSeparator != null) {
         forcePrefixSeparator
@@ -270,10 +302,14 @@ class {
         defaultPrefixSeparator
       }
     }
+
+    set {
+      _prefixSeparator = value
+    }
   }
 
-  let Bool _splitOnWord = null
-  visible let Bool splitOnWord {
+  var Bool? _splitOnWord = null
+  public var Bool? splitOnWord {
     get {
       return if (forceSplitOnWord != null) {
         forceSplitOnWord
@@ -282,6 +318,10 @@ class {
       } else {
         defaultSplitOnWord
       }
+    }
+
+    set {
+      _splitOnWord = value
     }
   }
 
@@ -292,8 +332,8 @@ class {
 
   visible Bool disabled => level == OFF
 
-  var Int _level = defaultLoggingLevel
-  visible Int level {
+  var Int? _level = defaultLoggingLevel
+  visible Int? level {
     get {
       if (lastDisabledLoggersModificationId == currentDisabledLoggersModificationId) return _level
 
@@ -318,11 +358,11 @@ class {
   public construct(
     private Class loggerClass = null,
     private String: label = null,
-    Int: loggingLevel = null,
-    Bool: showPrefix = null,
-    Bool: showFormatting = null,
-    Int: lineLength = null,
-    Bool: splitOnWord = null,
+    Int?: loggingLevel = null,
+    Bool?: showPrefix = null,
+    Bool?: showFormatting = null,
+    Int?: lineLength = null,
+    Bool?: splitOnWord = null,
     OutputStream: stream = null,
     OutputStream[]: streams = null,
     public var OutputStream[]: traceStreams = null,
