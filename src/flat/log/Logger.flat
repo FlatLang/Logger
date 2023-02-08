@@ -2,13 +2,15 @@ package flat/log
 
 import flat/io
 import flat/datastruct
-import flat/time/DateTime
-import flat/regex/Pattern
+import flat/time
+import flat/regex
+import flat/console
 
 import flat/regex/RegexStringExtensions
 
 import static flat/colorizer/Colorizer
 import static flat/stream/StreamListExtensions
+import static flat/console/EscapeCode
 
 class {
   visible static Int TRACE = 6
@@ -481,9 +483,7 @@ class {
   }
 
   getPrefix(Int level) -> String {
-    if (!showPrefix) {
-      return ""
-    }
+    if (!showPrefix) return ""
 
     let levelString = match (level) {
       TRACE => "TRACE"
@@ -501,7 +501,7 @@ class {
     let suffix = " #{classPrefix}#{labelPrefix}".trimEnd()
     let content = "[#{timestamp}] [#{levelString}]" + suffix
 
-    return if (showFormatting) {
+    if (showFormatting) {
       let colored = match (level) {
         TRACE => cyanBackground(content)
         DEBUG => greenBackground(content)
@@ -511,10 +511,10 @@ class {
         FATAL => redBackground(content)
       }
 
-      colored + prefixSeparator
-    } else {
-      content + prefixSeparator
+      return colored + prefixSeparator
     }
+
+    return content + prefixSeparator
   }
 
   public addFilter(filter(String) -> String) {
@@ -524,43 +524,9 @@ class {
   formatContent(var String content, Int level) -> String {
     filters.forEach({ content = (String)_(content) })
 
-    if (_lineLength != null) {
-      content = content
-        .split(/\n/)
-        .stream()
-        .map({
-          let trimmedLines = Array<String>()
+    if (!showFormatting) return content
 
-          var i = 0
-
-          while (i < _x.count) {
-            if (i + lineLength >= _x.count) {
-              trimmedLines.add(_x.substring(i).trimEnd())
-              break
-            }
-
-            let splitIndex = splitOnWord ?
-              _x.lastIndexOf(String.WHITESPACE, start: i + lineLength) + 1 :
-              i + lineLength
-
-            let trimmedLine = _x.substring(i, splitIndex).trimEnd()
-
-            trimmedLines.add(trimmedLine)
-
-            i = splitIndex
-          }
-
-          return trimmedLines
-        })
-        .map({ "#{_.join("\n")}" })
-        .join("\n")
-    }
-
-    if (!showFormatting) {
-      return content
-    }
-
-    let formatted = match (level) {
+    let formatted = match level {
       TRACE => cyan(content)
       DEBUG => green(content)
       INFO => content
@@ -570,6 +536,16 @@ class {
     }
 
     return formatted
+  }
+
+  wrapLine(String content, String prefix = "") => content {
+    if (lineLength > 0) {
+      return content
+        .split(/\n/)
+        .stream()
+        .flatMap({ wrapLine(_x, lineLength, indentation: prefix, breakWord: false).stream() })
+        .join("\n")
+    }
   }
 
   addLinePrefix(String content) => content {
@@ -609,7 +585,16 @@ class {
   }
 
   formatMessage(String message) -> String {
-    return addSuffix(addPrefix(addLineSuffix(addLinePrefix(message))))
+    return wrapLine(
+      addSuffix(
+        addPrefix(
+          addLineSuffix(
+            addLinePrefix(message)
+          )
+        )
+      ),
+      prefix: addLinePrefix("")
+    )
   }
 
   public static increaseTab(Int tabCount = 1, String tab = "  ") {
