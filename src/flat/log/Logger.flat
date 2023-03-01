@@ -551,24 +551,36 @@ class {
   addLinePrefix(String content) => content {
     if (linePrefix) {
       native_array native var Char[] data
+      native var String str
 
-      external {
+      external js {
         #{data} = #{linePrefix.chars.data} + #{content.chars.data}.replaceAll("\n", "\n" + #{linePrefix.chars.data});
-      }
 
-      return String(data)
+        #{return String(data)};
+      }
+      external java {
+        #{str} = #{linePrefix.chars.string} + #{content.chars.string}.replaceAll("\n", "\n" + #{linePrefix.chars.string});
+
+        #{return String(str)};
+      }
     }
   }
 
   addLineSuffix(String content) => content {
     if (lineSuffix) {
       native_array native var Char[] data
+      native var String str
 
-      external {
+      external js {
         #{data} = #{content.chars.data}.replaceAll("\n", #{linePrefix.chars.data} + "\n") + #{lineSuffix.chars.data};
-      }
 
-      return String(data)
+        #{return String(data)};
+      }
+      external java {
+        #{str} = #{content.chars.string}.replaceAll("\n", #{linePrefix.chars.string} + "\n") + #{lineSuffix.chars.string};
+
+        #{return String(str)};
+      }
     }
   }
 
