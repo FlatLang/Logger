@@ -540,9 +540,9 @@ class {
 
   wrapLine(String content, String prefix = "") => content {
     if (lineLength > 0) {
-      return content
-        .split(/\n/)
-        .stream()
+      let lines = content.split(/\n/)
+
+      return lines.stream()
         .flatMap({ wrapLine(_x, lineLength, indentation: prefix, breakWord: false).stream() })
         .join("\n")
     }
