@@ -503,12 +503,12 @@ class {
 
         if (showFormatting) {
             let colored = match (level) {
-                TRACE => cyanBackground(content)
-                DEBUG => greenBackground(content)
+                TRACE => black(cyanBackground(content))
+                DEBUG => black(greenBackground(content))
                 INFO => grayBackground(content)
-                WARN => yellowBackground(content)
-                ERROR => redBackground(content)
-                FATAL => redBackground(content)
+                WARN => black(yellowBackground(content))
+                ERROR => black(redBackground(content))
+                FATAL => black(redBackground(content))
             }
 
             return colored + prefixSeparator
